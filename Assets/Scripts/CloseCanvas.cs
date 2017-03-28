@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class CloseCanvas : MonoBehaviour {
 
-    public bool close;
+
+    public MenuNavigation nav;
     public GameObject canvas;
     public Button button;
     EnemySpawn script;
@@ -14,26 +15,32 @@ public class CloseCanvas : MonoBehaviour {
     // Use this for initialization
     void Start () {
         
-        close = false;
+
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        button.onClick.AddListener(TaskOnClick);
 
     }
     
     // Update is called once per frame
     void Update () {
         
-        canvas.SetActive(!close);
-        button.onClick.AddListener(TaskOnClick);
+        
 
     }
 
     void TaskOnClick(){
-        close = true;
+        
         for (int i=0; i<enemies.Length; i++) {
             EnemySpawn script = enemies[i].GetComponent<EnemySpawn>();
             script.start = true;
         }
-        
+        if (nav != null)
+        {
+            nav.goToGame();
+
+        }
+
     }
+
 
 }
