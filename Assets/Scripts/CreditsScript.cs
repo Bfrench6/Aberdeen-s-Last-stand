@@ -11,6 +11,9 @@ public class CreditsScript : MonoBehaviour
     public Canvas CreditsCanvas;
     public GameObject top;
     public MenuNavigation nav;
+	public Font myFont;
+	public int creditsTextSize;
+	public Color myColor;
     private List<Text> Credits = new List<Text>();
     private TextReader tr;
     public string path;
@@ -47,6 +50,7 @@ public class CreditsScript : MonoBehaviour
     {
         creditsText.transform.position = top.transform.position;
         creditsText.transform.Translate(Vector3.down * 45);
+
         credits.Clear();
         // Set the path for the credits.txt file
         path = "Assets/Resources/Credits.txt";
@@ -61,6 +65,7 @@ public class CreditsScript : MonoBehaviour
         // Close the stream
         tr.Close();
         CreateCredits();
+
     }
     
     // Update is called once per frame
@@ -94,6 +99,7 @@ public class CreditsScript : MonoBehaviour
             nav.goToMainMenu();
         }
     }
+
     void CreateCredits()
     {
         Credits.Clear();
@@ -103,9 +109,15 @@ public class CreditsScript : MonoBehaviour
             Text newTextItem = Instantiate(creditTextItem);
             newTextItem.text = c;
             newTextItem.transform.Translate(Vector3.down * i * newTextItem.preferredHeight*2);
+
+			//design
+			newTextItem.font = myFont;
+			newTextItem.fontSize = creditsTextSize;
+			newTextItem.color = myColor;
+			newTextItem.rectTransform.sizeDelta = new Vector2 (300,50);
+
             Credits.Add(newTextItem);
             newTextItem.transform.SetParent(CreditsCanvas.transform, false);
-
         }
     }
 

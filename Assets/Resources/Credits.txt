@@ -1,6 +1,9 @@
-Aberdeens Last Stand
+Aberdeen's Last Stand
 
-Designers
+Developers
 Ben French
 Chuan Yui Teh
 Pranav Bhardwaj
+
+Title & Font Design
+Allen Teh
