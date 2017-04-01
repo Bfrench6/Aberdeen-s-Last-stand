@@ -14,24 +14,20 @@ public class MainMenuHandler : MonoBehaviour {
     public GameObject startStroke;
     public GameObject creditsStroke;
 
-    public bool startSelected;
-
 
 	// Use this for initialization
 	void Start () {
         StartButton.onClick.AddListener(goToInfoScreen);
         CreditsButton.onClick.AddListener(goToCredits);
 
-        startStroke.SetActive(startSelected);
-
 		
 	}
 
     void Update() {
         if (Input.GetKeyDown("up") || Input.GetKeyDown("down")) {
-            startSelected = !startSelected;
-            startStroke.SetActive(startSelected);
-            creditsStroke.SetActive(!startSelected);
+            //startSelected = !startSelected;
+            startStroke.SetActive(!startStroke.activeSelf);
+            creditsStroke.SetActive(!creditsStroke.activeSelf);
         } 
         if (Input.GetKeyDown("return")) {
             if (startStroke.activeSelf) {
