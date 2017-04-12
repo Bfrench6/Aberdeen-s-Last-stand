@@ -52,16 +52,19 @@ public class PauseMenuHandler : MonoBehaviour {
                 diffTextElement.text = "Medium";
                 //TODO: set global difficulty variable
                 Manager.Instance.difficulty = "Medium";
+                Manager.Instance.difficultyMult = 2;
                 break;
             case "Medium":
                 diffTextElement.text = "Hard";
                 //TODO: set global difficulty variable 
                 Manager.Instance.difficulty = "Hard";
+                Manager.Instance.difficultyMult = 3;
                 break;
             case "Hard":
                 diffTextElement.text = "Easy";
                 //TODO: set global difficulty variable
                 Manager.Instance.difficulty = "Easy";
+                Manager.Instance.difficultyMult = 1;
                 break;
         }
             

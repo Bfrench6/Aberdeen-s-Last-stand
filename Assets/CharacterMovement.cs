@@ -22,15 +22,13 @@ public class CharacterMovement : MonoBehaviour {
     int floorMask;
 
     private int cooldown;
-    private int shotTime = 40;
+    private int shotTime = 10;
     private bool isAiming;
     private bool isRunning;
     //private Arrow[] arrows = new Arrow[50];
     private Arrow arrow;
     private bool arrowKnocked;
     private bool arrowFired;
-
-    bool isShowing = false;
 
     // Use this for initialization
     void Start () {
@@ -48,29 +46,19 @@ public class CharacterMovement : MonoBehaviour {
             {
                 anim.ResetTrigger("Fire");
             }
-            if (Input.GetMouseButtonDown(0) && (currentBaseState.fullPathHash == runState || currentBaseState.fullPathHash == walkState ||
-                currentBaseState.fullPathHash == idleState || currentBaseState.fullPathHash == shootState))
+            if (Input.GetMouseButtonDown(0)) 
+                //&& (currentBaseState.fullPathHash == runState || currentBaseState.fullPathHash == walkState ||
+                //currentBaseState.fullPathHash == idleState || currentBaseState.fullPathHash == shootState))
             {
                 anim.SetTrigger("Aim");
                 //Arrow arrow = new Arrow();
                 //arrows[arrows.GetLength()] = arrow;
             }
-            if (anim.GetFloat("drawArrow") > .5 && !arrowKnocked)
-            {
-				//print ("DRAW!");
-                arrow = FireArrow();
-
-                arrowKnocked = true;
-            }
-            if (anim.GetFloat("drawArrow") < 0.1 && arrowKnocked)
-            {
-                arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
-            }
+            
             if (Input.GetMouseButtonUp(0) && (currentBaseState.fullPathHash == aimState || currentBaseState.fullPathHash == drawState))
             {
                 anim.SetTrigger("Fire");
-
-                arrowKnocked = false;
+                
                 arrowFired = true;
                 arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
 
@@ -78,10 +66,8 @@ public class CharacterMovement : MonoBehaviour {
             }
 			else if (!Input.GetMouseButton(0) && currentBaseState.fullPathHash == aimState && cooldown > shotTime)
             {
-
                 anim.SetTrigger("Fire");
-
-                arrowKnocked = false;
+               
                 arrowFired = true;
                 arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
                 cooldown = 0;
@@ -125,10 +111,23 @@ public class CharacterMovement : MonoBehaviour {
     {
         if (!Manager.Instance.isPaused)
         {
+            if (anim.GetFloat("drawArrow") > .5 && !arrowKnocked)
+            {
+                //print ("DRAW!");
+                arrow = FireArrow();
+
+                arrowKnocked = true;
+            }
+            if (anim.GetFloat("drawArrow") < 0.1 && arrowKnocked)
+            {
+                arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
+            }
+
+
             float h = Input.GetAxis("Horizontal");              // setup h variable as our horizontal input axis
             float v = Input.GetAxis("Vertical");                // setup v variables as our vertical input axis
             anim.SetFloat("Speed", v);                          // set our animator's float parameter 'Speed' equal to the vertical input axis				
-            anim.SetFloat("Direction", h);                      // set our animator's float parameter 'Direction' equal to the horizontal input axis		
+            anim.SetFloat("Direction", h);                      // set our animator's float parameter 'Direction' equal to the horizontal input axis
 
             currentBaseState = anim.GetCurrentAnimatorStateInfo(0);	// set our currentState variable to the current state of the Base Layer (0) of animation
 
@@ -155,10 +154,12 @@ public class CharacterMovement : MonoBehaviour {
                 isAiming = false;
             }
 
-            if (anim.GetFloat("fireArrow") > 1 && arrowFired)
+            if (anim.GetFloat("fireArrow") > 0.5 && arrowFired)
             {
-                arrow.fired = true;
+            
                 arrow.transform.SetParent(null);
+                arrow.fired = true;
+                arrowKnocked = false;
             }
             //if (!isAiming)
             //{
@@ -176,16 +177,15 @@ public class CharacterMovement : MonoBehaviour {
         if (animator)
         {
             Vector3 newPosition = transform.position;
-            float runSpeed = anim.GetFloat("Runspeed");
-            float sideSpeed = anim.GetFloat("Sidespeed");
+            float runSpeed = Input.GetAxis("Vertical");
+            float sideSpeed = Input.GetAxis("Horizontal");
 
             Vector2 moveVec = new Vector2(runSpeed, sideSpeed);
             moveVec.Normalize();
+            
             Vector2 forwardVec = new Vector2(transform.forward.z, transform.forward.x);
             forwardVec.Normalize();
-            
-            
-            
+
             moveVec = Quaternion.Euler(0, 0, transform.eulerAngles.y) * moveVec;
             
 

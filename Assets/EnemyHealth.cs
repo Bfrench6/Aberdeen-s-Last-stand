@@ -27,7 +27,9 @@ public class EnemyHealth : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider>();
 
         // Setting the current health when the enemy first spawns.
-        currentHealth = startingHealth;
+        
+        currentHealth = startingHealth * Manager.Instance.difficultyMult;
+        scoreValue *= Manager.Instance.difficultyMult;
     }
 
     void Update()
@@ -99,7 +101,7 @@ public class EnemyHealth : MonoBehaviour
         isSinking = true;
 
         // Increase the score by the enemy's score value.
-        //ScoreManager.score += scoreValue;
+        Manager.Instance.Score += scoreValue;
 
         // After 2 seconds destory the enemy.
         Destroy(transform.gameObject);

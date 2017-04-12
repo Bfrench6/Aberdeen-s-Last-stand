@@ -6,7 +6,7 @@ public class Arrow : MonoBehaviour {
 
     private float speed = 10f;
     public bool fired = false;
-    public int damagePerShot = 20;
+    public int damagePerShot = 76;
 
     private bool selfDestructing;
     private int destructTimer;
@@ -50,17 +50,17 @@ public class Arrow : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("collision" + other.tag);
-        if (other.tag == "Enemy")
+        
+        if (other.tag == "Enemy" && fired)
         {
             EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
-                Debug.Log("damage");
+                
                 enemyHealth.TakeDamage(damagePerShot);
             }
             selfDestruct();
-        } else if (other.tag != "Player")
+        } else if (other.tag != "Player" && fired)
         {
             selfDestruct();
         }

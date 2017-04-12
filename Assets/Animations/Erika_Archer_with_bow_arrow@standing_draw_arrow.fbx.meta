@@ -168,7 +168,7 @@ ModelImporter:
       name: standing_draw_arrow
       takeName: mixamo.com
       firstFrame: 0
-      lastFrame: 31
+      lastFrame: 25
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -211,6 +211,25 @@ ModelImporter:
             tangentMode: 0
           preInfinity: 3
           postInfinity: 3
+          rotationOrder: 0
+      - name: arrowDrawn
+        curve:
+          serializedVersion: 2
+          curve:
+          - serializedVersion: 2
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 1
+            value: -0.3
+            inSlope: -1
+            outSlope: -1
+            tangentMode: 1
+          preInfinity: 2
+          postInfinity: 2
           rotationOrder: 0
       events: []
       transformMask:

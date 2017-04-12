@@ -4,10 +4,11 @@ using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int startingHealth = 100;                            // The amount of health the player starts the game with.
-    public int currentHealth;                                   // The current health the player has.
-    //public Slider healthSlider;                                 // Reference to the UI's health bar.
-    //public Image damageImage;                                   // Reference to an image to flash on the screen on being hurt.
+    public float regenRate = 0.75f;
+    public float startingHealth = 100;                            // The amount of health the player starts the game with.
+    public float currentHealth;                                   // The current health the player has.
+    public Slider healthSlider;                                 // Reference to the UI's health bar.
+    public Image damageImage;                                   // Reference to an image to flash on the screen on being hurt.
     //public AudioClip deathClip;                                 // The audio clip to play when the player dies.
     public float flashSpeed = 5f;                               // The speed the damageImage will fade at.
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);     // The colour the damageImage is set to, to flash.
@@ -18,6 +19,9 @@ public class PlayerHealth : MonoBehaviour
     CharacterMovement playerMovement;                            // Reference to the PlayerShooting script.
     bool isDead;                                                // Whether the player is dead.
     bool damaged;                                               // True when the player gets damaged.
+
+    int damageTimer;
+    int damageTime = 60;
 
     public MenuNavigation nav;
 
@@ -31,6 +35,8 @@ public class PlayerHealth : MonoBehaviour
 
         // Set the initial health of the player.
         currentHealth = startingHealth;
+
+        regenRate /= Manager.Instance.difficultyMult;
     }
 
 
@@ -40,13 +46,20 @@ public class PlayerHealth : MonoBehaviour
         if (damaged)
         {
             // ... set the colour of the damageImage to the flash colour.
-            //damageImage.color = flashColour;
+            damageImage.color = flashColour;
+            damageTimer = 0;
         }
         // Otherwise...
         else
         {
             // ... transition the colour back to clear.
-            //damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+            damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+            damageTimer++;
+        }
+
+        if (damageTimer > damageTime)
+        {
+            Regen();
         }
 
         // Reset the damaged flag.
@@ -54,7 +67,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         // Set the damaged flag so the screen will flash.
         damaged = true;
@@ -63,7 +76,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= amount;
 
         // Set the health bar's value to the current health.
-        //healthSlider.value = currentHealth;
+        healthSlider.value = currentHealth;
 
         // Play the hurt sound effect.
         //playerAudio.Play();
@@ -73,6 +86,15 @@ public class PlayerHealth : MonoBehaviour
         {
             // ... it should die.
             Death();
+        }
+    }
+
+    void Regen()
+    {
+        currentHealth += regenRate * Time.deltaTime;
+        if (currentHealth > startingHealth)
+        {
+            currentHealth = startingHealth;
         }
     }
 
@@ -95,6 +117,7 @@ public class PlayerHealth : MonoBehaviour
         // Turn off the movement and shooting scripts.
         playerMovement.enabled = false;
         //playerShooting.enabled = false;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        Manager.Instance.gameOver = true;
+        nav.goToScoreScreen();
     }
 }

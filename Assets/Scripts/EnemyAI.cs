@@ -22,8 +22,9 @@ public class EnemyAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(!Manager.Instance.isPaused && !enemyHealth.isDead)
+        if(!Manager.Instance.isPaused && !enemyHealth.isDead && !Manager.Instance.gameOver)
         {
+            
             nav.destination = player.position;
             nav.Resume();
             updateAnimatorCoordinates();
@@ -33,7 +34,7 @@ public class EnemyAI : MonoBehaviour {
 
     void OnAnimatorMove () {
         // Update position to agent position
-        transform.position = nav.nextPosition;
+            transform.position = nav.nextPosition;
     
     }
 

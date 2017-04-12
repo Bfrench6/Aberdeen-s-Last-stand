@@ -12,8 +12,12 @@ public class MenuNavigation : MonoBehaviour {
     public GameObject InfoScreen;
     public GameObject SettingsMenu;
     public GameObject Credits;
+    public GameObject HUD;
+    public GameObject ScoreScreen;
 
     public GameObject curScreen;
+
+    GameObject[] screens; //Make sure to update this in start if you add a canvas
     
 
 
@@ -21,16 +25,19 @@ public class MenuNavigation : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        screens = new GameObject[] { MainMenu, InfoScreen, SettingsMenu, Credits, HUD, ScoreScreen };
+
         goToMainMenu();
         GameCam.SetActive(false);
         PauseCam.SetActive(true);
+        
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (curScreen == null)
+        if (curScreen == HUD)
         {
             if (Input.GetKeyDown(KeyCode.Escape) /*|| Input.GetButtonDown("Start")*/)
             {
@@ -56,9 +63,21 @@ public class MenuNavigation : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.Escape) /*|| Input.GetButtonDown("Start")*/)
             {
+                if(Manager.Instance.gameOver)
+                {
+                    Manager.Instance.gameOver = false;
+                    SceneManager.LoadScene(0);
+                }
                 goToMainMenu();
             }
 
+        }
+        else if (curScreen == ScoreScreen)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) /*|| Input.GetButtonDown("Start")*/)
+            {
+                goToCredits();
+            }
         }
 		
 	}
@@ -67,10 +86,13 @@ public class MenuNavigation : MonoBehaviour {
         GameCam.SetActive(false);
         PauseCam.SetActive(true);
 
+        Manager.Instance.Score = 0;
+
+        foreach(GameObject screen in screens)
+        {
+            screen.SetActive(false);
+        }
         MainMenu.SetActive(true);
-        InfoScreen.SetActive(false);
-        SettingsMenu.SetActive(false);
-        Credits.SetActive(false);
         curScreen = MainMenu;
 
         Manager.Instance.isPaused = true;
@@ -79,10 +101,12 @@ public class MenuNavigation : MonoBehaviour {
 
     public void goToInfo()
     {
-        MainMenu.SetActive(false);
+        foreach (GameObject screen in screens)
+        {
+            screen.SetActive(false);
+        }
+
         InfoScreen.SetActive(true);
-        SettingsMenu.SetActive(false);
-        Credits.SetActive(false);
         curScreen = InfoScreen;
 
         Manager.Instance.isPaused = true;
@@ -94,10 +118,12 @@ public class MenuNavigation : MonoBehaviour {
         GameCam.SetActive(false);
         PauseCam.SetActive(true);
 
-        MainMenu.SetActive(false);
-        InfoScreen.SetActive(false);
+        foreach (GameObject screen in screens)
+        {
+            screen.SetActive(false);
+        }
+
         SettingsMenu.SetActive(true);
-        Credits.SetActive(false);
         curScreen = SettingsMenu;
 
         Manager.Instance.isPaused = true;
@@ -106,9 +132,12 @@ public class MenuNavigation : MonoBehaviour {
 
     public void goToCredits()
     {
-        MainMenu.SetActive(false);
-        InfoScreen.SetActive(false);
-        SettingsMenu.SetActive(false);
+
+        foreach (GameObject screen in screens)
+        {
+            screen.SetActive(false);
+        }
+
         Credits.SetActive(true);
         curScreen = Credits;
 
@@ -121,13 +150,33 @@ public class MenuNavigation : MonoBehaviour {
         GameCam.SetActive(true);
         PauseCam.SetActive(false);
 
-        MainMenu.SetActive(false);
-        InfoScreen.SetActive(false);
-        SettingsMenu.SetActive(false);
-        Credits.SetActive(false);
-        curScreen = null;
+        foreach (GameObject screen in screens)
+        {
+            screen.SetActive(false);
+        }
+
+        HUD.SetActive(true);
+        curScreen = HUD;
 
         Manager.Instance.isPaused = false;
 
     }
+
+    public void goToScoreScreen()
+    {
+        foreach (GameObject screen in screens)
+        {
+            screen.SetActive(false);
+        }
+
+        ScoreScreen.SetActive(true);
+        curScreen = ScoreScreen;
+
+        Manager.Instance.isPaused = true;
+
+        UnityEngine.UI.Text winLoseText = ScoreScreen.GetComponentInChildren<UnityEngine.UI.Text>();
+        winLoseText.text += Manager.Instance.Score.ToString();
+
+    }
+
 }
