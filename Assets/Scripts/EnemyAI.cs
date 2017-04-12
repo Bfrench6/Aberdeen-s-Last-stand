@@ -7,20 +7,24 @@ public class EnemyAI : MonoBehaviour {
     //public GameObject dest;
     public UnityEngine.AI.NavMeshAgent nav;
     public Animator anim;
+    public Transform player;
+    EnemyHealth enemyHealth;
     Vector2 smooth = Vector2.zero;
     Vector2 velocity = Vector2.zero;
 
 	// Use this for initialization
 	void Start () {
-		anim = GetComponent<Animator> ();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        anim = GetComponent<Animator> ();
         nav.updatePosition = false;
+        enemyHealth = GetComponent<EnemyHealth>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if(!Manager.Instance.isPaused)
+        if(!Manager.Instance.isPaused && !enemyHealth.isDead)
         {
-            nav.destination = new Vector3(0, 0, 0);
+            nav.destination = player.position;
             nav.Resume();
             updateAnimatorCoordinates();
         }

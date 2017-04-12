@@ -57,7 +57,7 @@ public class CharacterMovement : MonoBehaviour {
             }
             if (anim.GetFloat("drawArrow") > .5 && !arrowKnocked)
             {
-				print ("DRAW!");
+				//print ("DRAW!");
                 arrow = FireArrow();
 
                 arrowKnocked = true;
@@ -192,11 +192,11 @@ public class CharacterMovement : MonoBehaviour {
 
             if (isRunning)
             {
-                moveVec *= 4;
+                moveVec *= 5;
             }
             else
             {
-                moveVec *= 2;
+                moveVec *= 3;
             }
 
             newPosition.z += moveVec.x * Time.deltaTime;
