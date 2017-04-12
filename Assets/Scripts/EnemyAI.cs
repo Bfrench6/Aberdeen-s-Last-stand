@@ -18,9 +18,13 @@ public class EnemyAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		nav.destination = new Vector3(0,0,0);
-        nav.Resume();
-        updateAnimatorCoordinates();
+        if(!Manager.Instance.isPaused)
+        {
+            nav.destination = new Vector3(0, 0, 0);
+            nav.Resume();
+            updateAnimatorCoordinates();
+        }
+		
 	}
 
     void OnAnimatorMove () {
@@ -32,7 +36,7 @@ public class EnemyAI : MonoBehaviour {
     void updateAnimatorCoordinates() {
         //Calculate x and z direction of animation:
         Vector3 deltaWorldPos = nav.nextPosition - transform.position;
-        Debug.Log(deltaWorldPos);
+        //Debug.Log(deltaWorldPos);
         //map world coordinates to space
         float dx = Vector3.Dot(transform.right, deltaWorldPos);
         float dy = Vector3.Dot(transform.forward, deltaWorldPos);
@@ -45,7 +49,7 @@ public class EnemyAI : MonoBehaviour {
             velocity = smooth/Time.deltaTime;
         }
 
-        Debug.Log(velocity.x);
+        //Debug.Log(velocity.x);
         anim.SetFloat ("velx", velocity.x);
         anim.SetFloat ("velz", velocity.y);
     }

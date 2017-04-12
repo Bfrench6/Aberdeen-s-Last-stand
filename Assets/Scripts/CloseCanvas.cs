@@ -32,7 +32,11 @@ public class CloseCanvas : MonoBehaviour {
         
         for (int i=0; i<enemies.Length; i++) {
             EnemySpawn script = enemies[i].GetComponent<EnemySpawn>();
-            script.start = true;
+            if (script != null)
+            {
+                script.start = true;
+            }
+            
         }
         if (nav != null)
         {

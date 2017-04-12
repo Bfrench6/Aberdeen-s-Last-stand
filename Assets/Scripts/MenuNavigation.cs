@@ -14,6 +14,9 @@ public class MenuNavigation : MonoBehaviour {
     public GameObject Credits;
 
     public GameObject curScreen;
+    
+
+
 
 
 	// Use this for initialization
@@ -69,6 +72,9 @@ public class MenuNavigation : MonoBehaviour {
         SettingsMenu.SetActive(false);
         Credits.SetActive(false);
         curScreen = MainMenu;
+
+        Manager.Instance.isPaused = true;
+
     }
 
     public void goToInfo()
@@ -78,6 +84,8 @@ public class MenuNavigation : MonoBehaviour {
         SettingsMenu.SetActive(false);
         Credits.SetActive(false);
         curScreen = InfoScreen;
+
+        Manager.Instance.isPaused = true;
 
     }
 
@@ -92,6 +100,8 @@ public class MenuNavigation : MonoBehaviour {
         Credits.SetActive(false);
         curScreen = SettingsMenu;
 
+        Manager.Instance.isPaused = true;
+
     }
 
     public void goToCredits()
@@ -101,6 +111,8 @@ public class MenuNavigation : MonoBehaviour {
         SettingsMenu.SetActive(false);
         Credits.SetActive(true);
         curScreen = Credits;
+
+        Manager.Instance.isPaused = true;
 
     }
 
@@ -114,6 +126,8 @@ public class MenuNavigation : MonoBehaviour {
         SettingsMenu.SetActive(false);
         Credits.SetActive(false);
         curScreen = null;
+
+        Manager.Instance.isPaused = false;
 
     }
 }

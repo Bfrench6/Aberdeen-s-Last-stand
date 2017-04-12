@@ -12,4 +12,6 @@ public class Manager : Singleton<Manager>
     public float musicVol = 100;
     public float FXVol = 100;
 
+    public bool isPaused = false;
+
 }

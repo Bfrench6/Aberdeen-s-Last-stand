@@ -21,9 +21,12 @@ public class Arrow : MonoBehaviour {
         
         if(selfDestructing)
         {
+            Debug.Log("destructing");
             destructTimer++;
-        } else if (fired)
+        }
+        if (fired && destructTimer < 3)
         {
+            Debug.Log("moving");
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
         if (destructTimer > destructTime)
@@ -54,9 +57,10 @@ public class Arrow : MonoBehaviour {
             //{
             //    enemyHealth.TakeDamage(damagePerShot);
             //}
-        } else
+            selfDestruct();
+        } else if (other.tag != "Player")
         {
-            selfDestructing = true;
+            selfDestruct();
         }
     }
 
