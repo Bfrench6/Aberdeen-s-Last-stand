@@ -57,14 +57,15 @@ public class CharacterMovement : MonoBehaviour {
             }
             if (anim.GetFloat("drawArrow") > .5 && !arrowKnocked)
             {
+				print ("DRAW!");
                 arrow = FireArrow();
 
                 arrowKnocked = true;
             }
-            //if (anim.GetFloat("drawArrow") < 0.1 && arrowKnocked)
-            //{
-            //    arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
-            //}
+            if (anim.GetFloat("drawArrow") < 0.1 && arrowKnocked)
+            {
+                arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
+            }
             if (Input.GetMouseButtonUp(0) && (currentBaseState.fullPathHash == aimState || currentBaseState.fullPathHash == drawState))
             {
                 anim.SetTrigger("Fire");
@@ -75,7 +76,7 @@ public class CharacterMovement : MonoBehaviour {
 
                 cooldown = 0;
             }
-            else if (!Input.GetMouseButton(0) && currentBaseState.fullPathHash == aimState && cooldown > shotTime)
+			else if (!Input.GetMouseButton(0) && currentBaseState.fullPathHash == aimState && cooldown > shotTime)
             {
 
                 anim.SetTrigger("Fire");
@@ -85,6 +86,37 @@ public class CharacterMovement : MonoBehaviour {
                 arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
                 cooldown = 0;
             }
+
+			//TODO: release bow if mouse button isn't press long enough
+//			if (!Input.GetMouseButtonUp(0) && currentBaseState.fullPathHash == drawState && cooldown <= shotTime)
+//			{
+//				print ("RELEASE");
+//				anim.SetTrigger("Release");
+//				if(arrow != null) {
+//					arrow.selfDestruct ();
+//				}
+//				//				arrowKnocked = true;
+//				//				arrowFired = false;
+//				//				arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
+//				cooldown = 0;
+//			}
+//			else if (Input.GetMouseButtonUp(0) && (currentBaseState.fullPathHash == aimState || currentBaseState.fullPathHash == drawState) && cooldown > shotTime)
+//			{
+////				arrow = FireArrow();
+////
+////				arrowKnocked = true;
+//
+//				print("FIRE");
+//				anim.SetTrigger("Fire");
+//
+//				arrowKnocked = false;
+//				arrowFired = true;
+//				arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
+//
+//				cooldown = 0;
+//			}
+
+//            
         }
 
     }

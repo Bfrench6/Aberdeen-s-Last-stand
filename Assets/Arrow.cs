@@ -21,12 +21,11 @@ public class Arrow : MonoBehaviour {
         
         if(selfDestructing)
         {
-            Debug.Log("destructing");
+//            Debug.Log("Destroying arrow");
             destructTimer++;
         }
         if (fired && destructTimer < 3)
         {
-            Debug.Log("moving");
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
         if (destructTimer > destructTime)
@@ -64,7 +63,7 @@ public class Arrow : MonoBehaviour {
         }
     }
 
-    void selfDestruct()
+    public void selfDestruct()
     {
         Destroy(transform.gameObject);
     }
