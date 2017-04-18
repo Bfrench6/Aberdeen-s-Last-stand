@@ -12,7 +12,7 @@ public class EnemyHealth : MonoBehaviour
 
     Animator anim;                              // Reference to the animator.
     //AudioSource enemyAudio;                     // Reference to the audio source.
-    //ParticleSystem hitParticles;                // Reference to the particle system that plays when the enemy is damaged.
+    ParticleSystem hitParticles;                // Reference to the particle system that plays when the enemy is damaged.
     CapsuleCollider capsuleCollider;            // Reference to the capsule collider.
     public bool isDead;                                // Whether the enemy is dead.
     bool isSinking;                             // Whether the enemy has started sinking through the floor.
@@ -23,7 +23,7 @@ public class EnemyHealth : MonoBehaviour
         // Setting up the references.
         anim = GetComponent<Animator>();
         //enemyAudio = GetComponent<AudioSource>();
-        //hitParticles = GetComponentInChildren<ParticleSystem>();
+        hitParticles = GetComponentInChildren<ParticleSystem>();
         capsuleCollider = GetComponent<CapsuleCollider>();
 
         // Setting the current health when the enemy first spawns.
@@ -43,8 +43,9 @@ public class EnemyHealth : MonoBehaviour
     }
 
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(int amount, Vector3 hitPoint)
     {
+        Debug.Log("current health" + currentHealth);
         // If the enemy is dead...
         if (isDead)
             // ... no need to take damage so exit the function.
@@ -57,10 +58,10 @@ public class EnemyHealth : MonoBehaviour
         currentHealth -= amount;
 
         // Set the position of the particle system to where the hit was sustained.
-        //hitParticles.transform.position = hitPoint;
+        hitParticles.transform.position = hitPoint;
 
         // And play the particles.
-        //hitParticles.Play();
+        hitParticles.Play();
 
         // If the current health is less than or equal to zero...
         if (currentHealth <= 0)
@@ -95,7 +96,7 @@ public class EnemyHealth : MonoBehaviour
         GetComponent<NavMeshAgent>().enabled = false;
 
         // Find the rigidbody component and make it kinematic (since we use Translate to sink the enemy).
-        //GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<Rigidbody>().isKinematic = true;
 
         // The enemy should no sink.
         isSinking = true;
@@ -104,6 +105,6 @@ public class EnemyHealth : MonoBehaviour
         Manager.Instance.Score += scoreValue;
 
         // After 2 seconds destory the enemy.
-        Destroy(transform.gameObject);
+        Destroy(gameObject, 2f);
     }
 }

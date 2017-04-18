@@ -7,8 +7,7 @@ public class Arrow : MonoBehaviour {
     private float speed = 10f;
     public bool fired = false;
     public int damagePerShot = 76;
-
-    private bool selfDestructing;
+    
     private int destructTimer;
     private int destructTime = 60;
 
@@ -20,22 +19,13 @@ public class Arrow : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-        if(selfDestructing)
-        {
-//            Debug.Log("Destroying arrow");
-            destructTimer++;
-        }
-        if (fired && destructTimer < 3)
+        
+        if (fired)
         {
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
-        if (destructTimer > destructTime)
-        {
-            selfDestruct();
-        }
-        
-        
-		
+
+       
 	}
 
     void FixedUpdate()
@@ -50,19 +40,21 @@ public class Arrow : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        
-        if (other.tag == "Enemy" && fired)
+        if (!other.isTrigger)
         {
-            EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
-            if (enemyHealth != null)
+            if (other.tag == "Enemy" && fired)
             {
-                
-                enemyHealth.TakeDamage(damagePerShot);
+                EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
+                if (enemyHealth != null)
+                {
+                    enemyHealth.TakeDamage(damagePerShot, transform.position + transform.forward/2);
+                }
+                selfDestruct();
             }
-            selfDestruct();
-        } else if (other.tag != "Player" && fired)
-        {
-            selfDestruct();
+            else if (other.tag != "Player" && fired)
+            {
+                selfDestruct();
+            }
         }
     }
 
@@ -71,4 +63,13 @@ public class Arrow : MonoBehaviour {
         Destroy(transform.gameObject);
     }
 
+    public void Fire()
+    {
+        if (transform != null)
+        {
+            transform.SetParent(null);
+        }
+        
+        fired = true;
+    }
 }

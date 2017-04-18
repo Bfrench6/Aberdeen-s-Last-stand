@@ -12,29 +12,39 @@ public class EnemyAI : MonoBehaviour {
     Vector2 smooth = Vector2.zero;
     Vector2 velocity = Vector2.zero;
 
+    void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        anim = GetComponent<Animator>();
+        enemyHealth = GetComponent<EnemyHealth>();
+    }
+
 	// Use this for initialization
 	void Start () {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        anim = GetComponent<Animator> ();
+        
         nav.updatePosition = false;
-        enemyHealth = GetComponent<EnemyHealth>();
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
         if(!Manager.Instance.isPaused && !enemyHealth.isDead && !Manager.Instance.gameOver)
         {
-            
             nav.destination = player.position;
             nav.Resume();
             updateAnimatorCoordinates();
+        } else if (nav.isActiveAndEnabled)
+        {
+            nav.Stop();
         }
 		
 	}
 
     void OnAnimatorMove () {
         // Update position to agent position
-            transform.position = nav.nextPosition;
+        transform.position = nav.nextPosition;
+        
+            
     
     }
 

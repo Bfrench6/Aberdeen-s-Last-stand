@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MenuNavigation : MonoBehaviour {
@@ -14,6 +15,10 @@ public class MenuNavigation : MonoBehaviour {
     public GameObject Credits;
     public GameObject HUD;
     public GameObject ScoreScreen;
+
+    public AudioSource TitleMusic;
+    public AudioSource PauseMusic;
+    public AudioSource BackgroundMusic;
 
     public GameObject curScreen;
 
@@ -37,6 +42,7 @@ public class MenuNavigation : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+
         if (curScreen == HUD)
         {
             if (Input.GetKeyDown(KeyCode.Escape) /*|| Input.GetButtonDown("Start")*/)
@@ -56,6 +62,7 @@ public class MenuNavigation : MonoBehaviour {
             {
                 goToGame();
             }
+            
 
             
         }
@@ -97,6 +104,8 @@ public class MenuNavigation : MonoBehaviour {
 
         Manager.Instance.isPaused = true;
 
+        TitleMusic.Play();
+
     }
 
     public void goToInfo()
@@ -127,6 +136,9 @@ public class MenuNavigation : MonoBehaviour {
         curScreen = SettingsMenu;
 
         Manager.Instance.isPaused = true;
+
+        BackgroundMusic.Pause();
+        PauseMusic.Play();
 
     }
 
@@ -159,6 +171,10 @@ public class MenuNavigation : MonoBehaviour {
         curScreen = HUD;
 
         Manager.Instance.isPaused = false;
+
+        TitleMusic.Stop();
+        PauseMusic.Stop();
+        BackgroundMusic.Play();
 
     }
 
