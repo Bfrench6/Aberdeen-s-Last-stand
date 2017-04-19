@@ -102,7 +102,7 @@ public class CreditsScript : MonoBehaviour
                 Manager.Instance.gameOver = false;
                 SceneManager.LoadScene(0);
             }
-            goToMainMenu();
+            nav.goToMainMenu();
         }
     }
 
