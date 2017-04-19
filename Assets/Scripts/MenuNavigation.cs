@@ -60,6 +60,7 @@ public class MenuNavigation : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.Escape) /*|| Input.GetButtonDown("Start")*/)
             {
+                TimerControl.ResumeTimer(SettingsMenu.GetComponent<PauseMenuHandler>().pauseTime);
                 goToGame();
             }
             
@@ -104,6 +105,8 @@ public class MenuNavigation : MonoBehaviour {
 
         Manager.Instance.isPaused = true;
 
+        BackgroundMusic.Stop();
+        PauseMusic.Stop();
         TitleMusic.Play();
 
     }
@@ -178,7 +181,7 @@ public class MenuNavigation : MonoBehaviour {
 
     }
 
-    public void goToScoreScreen()
+    public void goToScoreScreen(bool winner)
     {
         foreach (GameObject screen in screens)
         {
@@ -190,8 +193,16 @@ public class MenuNavigation : MonoBehaviour {
 
         Manager.Instance.isPaused = true;
 
-        UnityEngine.UI.Text winLoseText = ScoreScreen.GetComponentInChildren<UnityEngine.UI.Text>();
-        winLoseText.text += Manager.Instance.Score.ToString();
+        if(winner)
+        {
+            Text textElement = ScoreScreen.GetComponentInChildren<Text>();
+            textElement.text = "Congratulations! You held of the hoards long enough for reinforcments to arrive!\nYour score was: " + Manager.Instance.Score.ToString();
+        }
+        else
+        {
+            Text textElement = ScoreScreen.GetComponentInChildren<Text>();
+            textElement.text = "Sorry, you were slain before reinforcements could arrive\n\nYour score was: " + Manager.Instance.Score.ToString();
+        }
 
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CreditsScript : MonoBehaviour
 {
@@ -96,7 +97,12 @@ public class CreditsScript : MonoBehaviour
         }
         else if (isActiveAndEnabled)
         {
-            nav.goToMainMenu();
+            if (Manager.Instance.gameOver)
+            {
+                Manager.Instance.gameOver = false;
+                SceneManager.LoadScene(0);
+            }
+            goToMainMenu();
         }
     }
 

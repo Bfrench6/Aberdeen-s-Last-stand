@@ -38,6 +38,7 @@ public class CharacterMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
         if (!Manager.Instance.isPaused)
         {
             cooldown++;
@@ -166,7 +167,7 @@ public class CharacterMovement : MonoBehaviour {
     {
         Animator animator = GetComponent<Animator>();
 
-        if (animator)
+        if (animator && !Manager.Instance.gameOver)
         {
             Vector3 newPosition = transform.position;
             float runSpeed = Input.GetAxis("Vertical");

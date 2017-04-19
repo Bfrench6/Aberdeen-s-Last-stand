@@ -16,7 +16,6 @@ public class MixLevels : MonoBehaviour
 
     public void SetMasterVol(float masterVol)
     {
-        Debug.Log("master changed: " + masterVol);
         mixer.SetFloat("MasterVol", masterVol);
     }
 

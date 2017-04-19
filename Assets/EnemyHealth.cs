@@ -45,7 +45,6 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int amount, Vector3 hitPoint)
     {
-        Debug.Log("current health" + currentHealth);
         // If the enemy is dead...
         if (isDead)
             // ... no need to take damage so exit the function.

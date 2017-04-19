@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
-using System;
+using UnityEngine.SceneManagement;
 
 public class PauseMenuHandler : MonoBehaviour {
 
@@ -10,6 +10,7 @@ public class PauseMenuHandler : MonoBehaviour {
     public Slider musicVolume;
     public Slider fxVolume;
     public Button difficultyButton;
+    public float pauseTime;
     
 
 	// Use this for initialization
@@ -20,55 +21,58 @@ public class PauseMenuHandler : MonoBehaviour {
 
         difficultyButton.onClick.AddListener(ChangeDifficulty);
 
+    }
 
-
+    void Update()
+    {
+        pauseTime += Time.deltaTime;
     }
 
     void ChangeMasterVolume()
     {
-        //TODO: change global master volume variable
         Manager.Instance.masterVol = masterVolume.value;
     }
 
     void ChangeMusicVolume()
     {
-        //TODO: change global music volume variable
         Manager.Instance.musicVol = musicVolume.value;
     }
 
     void ChangeFXVolume()
     {
-        //TODO: change global fx volume variable
         Manager.Instance.FXVol = fxVolume.value;
     }
 
     void ChangeDifficulty()
     {
         Text diffTextElement = difficultyButton.GetComponentInChildren<Text>();
-        String diffText = diffTextElement.text;
+        string diffText = diffTextElement.text;
         switch (diffText)
         {
             case "Easy":
                 diffTextElement.text = "Medium";
-                //TODO: set global difficulty variable
                 Manager.Instance.difficulty = "Medium";
                 Manager.Instance.difficultyMult = 2;
                 break;
             case "Medium":
-                diffTextElement.text = "Hard";
-                //TODO: set global difficulty variable 
+                diffTextElement.text = "Hard"; 
                 Manager.Instance.difficulty = "Hard";
                 Manager.Instance.difficultyMult = 3;
                 break;
             case "Hard":
                 diffTextElement.text = "Easy";
-                //TODO: set global difficulty variable
                 Manager.Instance.difficulty = "Easy";
                 Manager.Instance.difficultyMult = 1;
                 break;
         }
             
 
+    }
+
+    public void quitToMainMenu()
+    {
+        Manager.Instance.gameOver = false;
+        SceneManager.LoadScene(0);
     }
 
 

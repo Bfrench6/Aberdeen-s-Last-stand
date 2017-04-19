@@ -118,6 +118,6 @@ public class PlayerHealth : MonoBehaviour
         playerMovement.enabled = false;
         //playerShooting.enabled = false;
         Manager.Instance.gameOver = true;
-        nav.goToScoreScreen();
+        nav.goToScoreScreen(false);
     }
 }
