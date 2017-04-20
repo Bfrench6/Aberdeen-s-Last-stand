@@ -201,7 +201,7 @@ public class MenuNavigation : MonoBehaviour {
         else
         {
             Text textElement = ScoreScreen.GetComponentInChildren<Text>();
-            textElement.text = "Sorry, you were slain before reinforcements could arrive\n\nYour score was: " + Manager.Instance.Score.ToString();
+            textElement.text = "Sorry, you have failed in your defense of the city\n\nYour score was: " + Manager.Instance.Score.ToString();
         }
 
     }

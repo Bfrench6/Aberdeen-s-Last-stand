@@ -10,9 +10,12 @@ public class EnemyAttack : MonoBehaviour
 
     Animator anim;                              // Reference to the animator component.
     GameObject player;                          // Reference to the player GameObject.
+    GameObject stone;                           //Reference to the stone GameObject
     PlayerHealth playerHealth;                  // Reference to the player's health.
+    StoneHealth stoneHealth;                    // Reference to the stones health
     EnemyHealth enemyHealth;                    // Reference to this enemy's health.
     bool playerInRange;                         // Whether player is within the trigger collider and can be attacked.
+    bool stoneInRange;                          // Whether stone is within the trigger collider and can be attacked.
     float timer;                                // Timer for counting up to the next attack.
 
 
@@ -20,8 +23,10 @@ public class EnemyAttack : MonoBehaviour
     {
         // Setting up the references.
         player = GameObject.FindGameObjectWithTag("Player");
+        stone = GameObject.FindGameObjectWithTag("Stone");
         attackDamage *= Manager.Instance.difficultyMult;
         playerHealth = player.GetComponent<PlayerHealth>();
+        stoneHealth = stone.GetComponent<StoneHealth>();
         enemyHealth = GetComponent<EnemyHealth>();
         anim = GetComponent<Animator>();
     }
@@ -35,6 +40,10 @@ public class EnemyAttack : MonoBehaviour
             // ... the player is in range.
             playerInRange = true;
         }
+        if (other.gameObject == stone)
+        {
+            stoneInRange = true;
+        }
     }
 
 
@@ -46,6 +55,10 @@ public class EnemyAttack : MonoBehaviour
             // ... the player is no longer in range.
             playerInRange = false;
         }
+        if (other.gameObject == stone)
+        {
+            stoneInRange = false;
+        }
     }
 
 
@@ -56,10 +69,17 @@ public class EnemyAttack : MonoBehaviour
 
     
      // If the timer exceeds the time between attacks, the player is in range and this enemy is alive...
-        if(timer >= timeBetweenAttacks && playerInRange && enemyHealth.currentHealth > 0)
+        if(timer >= timeBetweenAttacks && enemyHealth.currentHealth > 0)
         {
+            if(playerInRange)
+            {
+                Attack(player);
+            }
+            else if (stoneInRange)
+            {
+                Attack(stone);
+            }
             // ... attack.
-            Attack();
         }
 
         // If the player has zero or less health...
@@ -71,16 +91,28 @@ public class EnemyAttack : MonoBehaviour
     }
 
 
-    void Attack()
+    void Attack(GameObject thing)
     {
         // Reset the timer.
         timer = 0f;
-
-        // If the player has health to lose...
-        if (playerHealth.currentHealth > 0)
+        if (thing == player)
         {
-            // ... damage the player.
-            playerHealth.TakeDamage(attackDamage);
+            // If the player has health to lose...
+            if (playerHealth.currentHealth > 0)
+            {
+                // ... damage the player.
+                playerHealth.TakeDamage(attackDamage);
+            }
         }
+        else if (thing == stone)
+        {
+            // If the stone has health to lose...
+            if (stoneHealth.currentHealth > 0)
+            {
+                // ... damage the player.
+                stoneHealth.TakeDamage(attackDamage);
+            }
+        }
+        
     }
 }
