@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class MenuNavigation : MonoBehaviour {
 
     public GameObject GameCam;
+    public GameObject MiniMapCam;
     public GameObject PauseCam;
 
     public GameObject MainMenu;
@@ -34,6 +35,7 @@ public class MenuNavigation : MonoBehaviour {
 
         goToMainMenu();
         GameCam.SetActive(false);
+        MiniMapCam.SetActive(false);
         PauseCam.SetActive(true);
         
 		
@@ -92,6 +94,7 @@ public class MenuNavigation : MonoBehaviour {
     public void goToMainMenu()
     {
         GameCam.SetActive(false);
+        MiniMapCam.SetActive(false);
         PauseCam.SetActive(true);
 
         Manager.Instance.Score = 0;
@@ -128,6 +131,7 @@ public class MenuNavigation : MonoBehaviour {
     public void goToPauseMenu()
     {
         GameCam.SetActive(false);
+        MiniMapCam.SetActive(false);
         PauseCam.SetActive(true);
 
         foreach (GameObject screen in screens)
@@ -147,6 +151,7 @@ public class MenuNavigation : MonoBehaviour {
 
     public void goToCredits()
     {
+        MiniMapCam.SetActive(false);
 
         foreach (GameObject screen in screens)
         {
@@ -163,6 +168,7 @@ public class MenuNavigation : MonoBehaviour {
     public void goToGame()
     {
         GameCam.SetActive(true);
+        MiniMapCam.SetActive(true);
         PauseCam.SetActive(false);
 
         foreach (GameObject screen in screens)
@@ -183,6 +189,8 @@ public class MenuNavigation : MonoBehaviour {
 
     public void goToScoreScreen(bool winner)
     {
+        MiniMapCam.SetActive(false);
+
         foreach (GameObject screen in screens)
         {
             screen.SetActive(false);
