@@ -7,20 +7,20 @@ public class Arrow : MonoBehaviour {
     private float speed = 10f;
     public bool fired = false;
     public int damagePerShot = 76;
+    public AudioClip clip;
     
     private int destructTimer;
-    private int destructTime = 60;
+    private bool selfDestructing;
 
 	// Use this for initialization
 	void Start () {
-		
 	}
 	
 	// Update is called once per frame
 	void Update () {
         
         
-        if (fired)
+        if (fired && !selfDestructing)
         {
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
@@ -49,18 +49,20 @@ public class Arrow : MonoBehaviour {
                 {
                     enemyHealth.TakeDamage(damagePerShot, transform.position + transform.forward/2);
                 }
-                selfDestruct();
+                selfDestruct(0);
             }
             else if (other.tag != "Player" && fired)
             {
-                selfDestruct();
+                AudioSource.PlayClipAtPoint(clip, transform.position, Manager.Instance.FXVol);
+                selfDestruct(1f);
             }
         }
     }
 
-    public void selfDestruct()
+    public void selfDestruct(float time)
     {
-        Destroy(transform.gameObject);
+        selfDestructing = true;
+        Destroy(transform.gameObject, time);
     }
 
     public void Fire()

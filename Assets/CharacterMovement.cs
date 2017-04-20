@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour {
-
-    public Transform RHTrans;
-    public Arrow arrowPrefab;
+    
     public Rigidbody playerRigidbody;
 
     private Animator anim;                              // a reference to the animator on the character
@@ -20,14 +18,8 @@ public class CharacterMovement : MonoBehaviour {
 
     float camRayLength = 100f;
     int floorMask;
-
-    private int cooldown;
-    private int shotTime = 50;
-    private bool isAiming;
+    
     private bool isRunning;
-    private Arrow arrow;
-    private bool arrowKnocked;
-    private bool arrowFired;
 
     // Use this for initialization
     void Start () {
@@ -35,88 +27,12 @@ public class CharacterMovement : MonoBehaviour {
         floorMask = LayerMask.GetMask("Floor");
         playerRigidbody = GetComponent<Rigidbody>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-        
-        if (!Manager.Instance.isPaused)
-        {
-            cooldown++;
-
-            //if not drawing or aiming, reset fire trigger
-            if (currentBaseState.fullPathHash != drawState && currentBaseState.fullPathHash != aimState)
-            {
-                anim.ResetTrigger("Fire");
-            }
-            //if mouse pressed down, aim an arrow
-            if (Input.GetMouseButtonDown(0))
-            {
-                anim.SetTrigger("Aim");
-            }
-            //if the mouse button has been released, fire the arrow
-             if (!Input.GetMouseButton(0) && (currentBaseState.fullPathHash == aimState || currentBaseState.fullPathHash == drawState) && cooldown >= shotTime)
-            {
-                
-                anim.SetTrigger("Fire");
-               
-                arrowFired = true;
-                if (arrow != null)
-                {
-                    arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
-                }
-                cooldown = 0;
-            }
-
-			//TODO: release bow if mouse button isn't press long enough
-//			if (!Input.GetMouseButtonUp(0) && currentBaseState.fullPathHash == drawState && cooldown <= shotTime)
-//			{
-//				print ("RELEASE");
-//				anim.SetTrigger("Release");
-//				if(arrow != null) {
-//					arrow.selfDestruct ();
-//				}
-//				//				arrowKnocked = true;
-//				//				arrowFired = false;
-//				//				arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
-//				cooldown = 0;
-//			}
-//			else if (Input.GetMouseButtonUp(0) && (currentBaseState.fullPathHash == aimState || currentBaseState.fullPathHash == drawState) && cooldown > shotTime)
-//			{
-////				arrow = FireArrow();
-////
-////				arrowKnocked = true;
-//
-//				print("FIRE");
-//				anim.SetTrigger("Fire");
-//
-//				arrowKnocked = false;
-//				arrowFired = true;
-//				arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
-//
-//				cooldown = 0;
-//			}
-
-//            
-        }
-
-    }
 
     void FixedUpdate()
     {
-        if (!Manager.Instance.isPaused)
+        if (!Manager.Instance.isPaused || !Manager.Instance.gameOver)
         {
-            if (anim.GetFloat("drawArrow") > .5 && !arrowKnocked)
-            {
-                arrow = CreateArrow();
-
-                arrowKnocked = true;
-            }
-            if (anim.GetFloat("drawArrow") < 0.1 && arrowKnocked)
-            {
-                arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
-            }
-
-
+           
             float h = Input.GetAxis("Horizontal");              // setup h variable as our horizontal input axis
             float v = Input.GetAxis("Vertical");                // setup v variables as our vertical input axis
             anim.SetFloat("Speed", v);                          // set our animator's float parameter 'Speed' equal to the vertical input axis				
@@ -138,25 +54,20 @@ public class CharacterMovement : MonoBehaviour {
                 isRunning = false;
             }
 
-            if (currentBaseState.fullPathHash == drawState || currentBaseState.fullPathHash == aimState)
-            {
-                isAiming = true;
-            }
-            else
+            if (!(currentBaseState.fullPathHash == drawState || currentBaseState.fullPathHash == aimState))
             {
                 isRunning = true;
-                isAiming = false;
             }
 
-            if (anim.GetFloat("fireArrow") > 0.5 && arrowFired)
-            {
-                if (arrow != null)
-                {
-                    arrow.Fire();
-                }
+            //if (anim.GetFloat("fireArrow") > 0.5 && arrowFired)
+            //{
+            //    if (arrow != null)
+            //    {
+            //        arrow.Fire();
+            //    }
                 
-                arrowKnocked = false;
-            }
+            //    arrowKnocked = false;
+            //}
 
             Turning();
         }
@@ -192,17 +103,31 @@ public class CharacterMovement : MonoBehaviour {
 
             newPosition.z += moveVec.x * Time.deltaTime;
             newPosition.x += moveVec.y * Time.deltaTime;
+            if (newPosition.x < -55)
+            {
+                newPosition.x = -55;
+            } else if (newPosition.x > 45)
+            {
+                newPosition.x = 45;
+            }
+            if (newPosition.z > 40)
+            {
+                newPosition.z = 40;
+            } else if (newPosition.z < -60)
+            {
+                newPosition.z = -60;
+            }
             transform.position = newPosition;
         }
     }
 
-    Arrow CreateArrow()
-    {
-        //Arrow arrow = Instantiate(arrowPrefab, RHTrans.position, Quaternion.LookRotation(transform.forward));
-        Arrow arrow = Instantiate(arrowPrefab, RHTrans, false);
+    //Arrow CreateArrow()
+    //{
+    //    //Arrow arrow = Instantiate(arrowPrefab, RHTrans.position, Quaternion.LookRotation(transform.forward));
+    //    Arrow arrow = Instantiate(arrowPrefab, RHTrans, false);
 
-        return arrow;
-    }
+    //    return arrow;
+    //}
 
     void Turning()
     {

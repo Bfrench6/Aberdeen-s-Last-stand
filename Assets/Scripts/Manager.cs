@@ -10,9 +10,9 @@ public class Manager : Singleton<Manager>
     public string difficulty = "Medium";
     public int difficultyMult = 2;
 
-    public float masterVol = 100;
-    public float musicVol = 100;
-    public float FXVol = 100;
+    public float masterVol = 1f;
+    public float musicVol = 1f;
+    public float FXVol = 1f;
 
     public bool isPaused = false;
     public bool gameOver = false;

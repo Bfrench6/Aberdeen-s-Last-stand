@@ -7,7 +7,7 @@ public class EnemyHealth : MonoBehaviour
     public int currentHealth;                   // The current health the enemy has.
     public float sinkSpeed = 2.5f;              // The speed at which the enemy sinks through the floor when dead.
     public int scoreValue = 10;                 // The amount added to the player's score when the enemy dies.
-   // public AudioClip deathClip;                 // The sound to play when the enemy dies.
+    public AudioClip clip;                 // The sound to play when the enemy dies.
 
 
     Animator anim;                              // Reference to the animator.
@@ -51,7 +51,7 @@ public class EnemyHealth : MonoBehaviour
             return;
 
         // Play the hurt sound effect.
-        //enemyAudio.Play();
+        AudioSource.PlayClipAtPoint(clip, transform.position, Manager.Instance.FXVol);
 
         // Reduce the current health by the amount of damage sustained.
         currentHealth -= amount;

@@ -11,14 +11,11 @@ public class CloseCanvas : MonoBehaviour {
     public Button button;
     public Button lengthButton;
     public Button difficultyButton;
-    EnemySpawn script;
-    GameObject[] enemies;
 
     // Use this for initialization
     void Start () {
         
-
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        
         button.onClick.AddListener(TaskOnClick);
         if (lengthButton != null)
         {
@@ -41,19 +38,10 @@ public class CloseCanvas : MonoBehaviour {
 
     void TaskOnClick(){
         
-        for (int i=0; i<enemies.Length; i++) {
-            EnemySpawn script = enemies[i].GetComponent<EnemySpawn>();
-            if (script != null)
-            {
-                script.start = true;
-            }
-            
-        }
         if (nav != null)
         {
             TimerControl.StartTimer(Manager.Instance.length);
             nav.goToGame();
-
         }
 
     }
