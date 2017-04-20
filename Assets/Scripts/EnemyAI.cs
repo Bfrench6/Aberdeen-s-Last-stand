@@ -7,7 +7,8 @@ public class EnemyAI : MonoBehaviour {
     //public GameObject dest;
     public UnityEngine.AI.NavMeshAgent nav;
     public Animator anim;
-    public Transform player;
+    public Transform target;
+	public Transform player;
     EnemyHealth enemyHealth;
     Vector2 smooth = Vector2.zero;
     Vector2 velocity = Vector2.zero;
@@ -15,6 +16,7 @@ public class EnemyAI : MonoBehaviour {
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+		target = GameObject.FindGameObjectWithTag ("Stone").transform;
         anim = GetComponent<Animator>();
         enemyHealth = GetComponent<EnemyHealth>();
     }
@@ -30,21 +32,25 @@ public class EnemyAI : MonoBehaviour {
 	void Update () {
         if(!Manager.Instance.isPaused && !enemyHealth.isDead && !Manager.Instance.gameOver)
         {
-            nav.destination = player.position;
+			if (enemyHealth.currentHealth < enemyHealth.startingHealth)
+				nav.destination = player.position;
+			else
+            	nav.destination = target.position;
+			print (enemyHealth.currentHealth);
             nav.Resume();
             updateAnimatorCoordinates();
         } else if (nav.isActiveAndEnabled)
         {
             nav.Stop();
         }
+
+
 		
 	}
 
     void OnAnimatorMove () {
         // Update position to agent position
         transform.position = nav.nextPosition;
-        
-            
     
     }
 
