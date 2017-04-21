@@ -19,6 +19,7 @@ public class CharacterMovement : MonoBehaviour {
     float camRayLength = 100f;
     int floorMask;
     
+    
     private bool isRunning;
 
     // Use this for initialization
@@ -26,6 +27,7 @@ public class CharacterMovement : MonoBehaviour {
         anim = GetComponent<Animator>();
         floorMask = LayerMask.GetMask("Floor");
         playerRigidbody = GetComponent<Rigidbody>();
+
     }
 
     void FixedUpdate()
@@ -35,8 +37,27 @@ public class CharacterMovement : MonoBehaviour {
            
             float h = Input.GetAxis("Horizontal");              // setup h variable as our horizontal input axis
             float v = Input.GetAxis("Vertical");                // setup v variables as our vertical input axis
-            anim.SetFloat("Speed", v);                          // set our animator's float parameter 'Speed' equal to the vertical input axis				
-            anim.SetFloat("Direction", h);                      // set our animator's float parameter 'Direction' equal to the horizontal input axis
+
+            Vector2 moveVec = new Vector2(h, v);
+
+            Vector2 lookVec = new Vector2(transform.forward.x, transform.forward.z);
+            lookVec = Quaternion.Euler(0, 0, 220) * lookVec;
+            lookVec.Normalize();
+
+            Vector2 forwardVec = new Vector2(0, 1);
+
+            float rotAngle = Vector2.Angle(lookVec, forwardVec);
+            
+            if (lookVec.x < 0)
+            {
+                rotAngle = -rotAngle;
+            }
+
+            moveVec = Quaternion.Euler(0, 0, rotAngle) * moveVec;
+            moveVec.Normalize();
+
+            anim.SetFloat("Speed", moveVec.y);                          // set our animator's float parameter 'Speed' equal to the vertical input axis				
+            anim.SetFloat("Direction", moveVec.x);                      // set our animator's float parameter 'Direction' equal to the horizontal input axis
 
             currentBaseState = anim.GetCurrentAnimatorStateInfo(0);	// set our currentState variable to the current state of the Base Layer (0) of animation
 
@@ -59,16 +80,6 @@ public class CharacterMovement : MonoBehaviour {
                 isRunning = true;
             }
 
-            //if (anim.GetFloat("fireArrow") > 0.5 && arrowFired)
-            //{
-            //    if (arrow != null)
-            //    {
-            //        arrow.Fire();
-            //    }
-                
-            //    arrowKnocked = false;
-            //}
-
             Turning();
         }
        
@@ -84,14 +95,14 @@ public class CharacterMovement : MonoBehaviour {
             float runSpeed = Input.GetAxis("Vertical");
             float sideSpeed = Input.GetAxis("Horizontal");
 
+
+
             Vector2 moveVec = new Vector2(runSpeed, sideSpeed);
             moveVec.Normalize();
-            
-            Vector2 forwardVec = new Vector2(transform.forward.z, transform.forward.x);
-            forwardVec.Normalize();
 
-            moveVec = Quaternion.Euler(0, 0, transform.eulerAngles.y) * moveVec;
+            moveVec = Quaternion.Euler(0, 0, 220) * moveVec;
             
+
             if (isRunning)
             {
                 moveVec *= 5;
