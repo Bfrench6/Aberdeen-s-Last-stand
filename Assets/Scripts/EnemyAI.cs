@@ -32,13 +32,15 @@ public class EnemyAI : MonoBehaviour {
 	void Update () {
         if(!Manager.Instance.isPaused && !enemyHealth.isDead && !Manager.Instance.gameOver)
         {
-			if (enemyHealth.currentHealth < (enemyHealth.startingHealth* Manager.Instance.difficultyMult))
+			if (anim.GetBool("Attack") || enemyHealth.currentHealth < (enemyHealth.startingHealth* Manager.Instance.difficultyMult))
 				nav.destination = player.position;
 			else
             	nav.destination = target.position;
+
             nav.Resume();
             updateAnimatorCoordinates();
-        } else if (nav.isActiveAndEnabled)
+        } 
+        else if (nav.isActiveAndEnabled)
         {
             nav.Stop();
         }

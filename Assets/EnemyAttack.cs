@@ -79,6 +79,10 @@ public class EnemyAttack : MonoBehaviour
             {
                 Attack(stone);
             }
+            else 
+            {
+                anim.SetBool("Attack", false);
+            }
             // ... attack.
         }
 
@@ -88,6 +92,7 @@ public class EnemyAttack : MonoBehaviour
             // ... tell the animator the player is dead.
             anim.SetTrigger ("PlayerDead");
         }
+
     }
 
 
@@ -113,6 +118,7 @@ public class EnemyAttack : MonoBehaviour
                 stoneHealth.TakeDamage(attackDamage);
             }
         }
+        anim.SetBool("Attack", true);
         
     }
 }
