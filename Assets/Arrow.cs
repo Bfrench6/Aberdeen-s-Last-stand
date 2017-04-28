@@ -59,6 +59,20 @@ public class Arrow : MonoBehaviour {
         }
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        //if enemy is on top of player while shooting
+        if(other.tag == "Enemy" && fired)
+        {
+            EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(damagePerShot, transform.position + transform.forward / 2);
+            }
+            selfDestruct(0);
+        }
+    }
+
     public void selfDestruct(float time)
     {
         selfDestructing = true;

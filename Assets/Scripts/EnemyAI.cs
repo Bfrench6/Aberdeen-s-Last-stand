@@ -10,6 +10,7 @@ public class EnemyAI : MonoBehaviour {
     public Transform target;
 	public Transform player;
     EnemyHealth enemyHealth;
+    EnemyAttack enemyAttack;
     Vector2 smooth = Vector2.zero;
     Vector2 velocity = Vector2.zero;
 
@@ -19,6 +20,7 @@ public class EnemyAI : MonoBehaviour {
 		target = GameObject.FindGameObjectWithTag ("Stone").transform;
         anim = GetComponent<Animator>();
         enemyHealth = GetComponent<EnemyHealth>();
+        enemyAttack = GetComponent<EnemyAttack>();
     }
 
 	// Use this for initialization
@@ -32,7 +34,7 @@ public class EnemyAI : MonoBehaviour {
 	void Update () {
         if(!Manager.Instance.isPaused && !enemyHealth.isDead && !Manager.Instance.gameOver)
         {
-			if (anim.GetBool("Attack") || enemyHealth.currentHealth < (enemyHealth.startingHealth* Manager.Instance.difficultyMult))
+			if (enemyAttack.playerInRange || enemyHealth.currentHealth < (enemyHealth.startingHealth* Manager.Instance.difficultyMult))
 				nav.destination = player.position;
 			else
             	nav.destination = target.position;

@@ -9,6 +9,7 @@ public class TimerControl : MonoBehaviour {
     public Text finishedtextElement;
     public MenuNavigation nav;
     public EnemyManager enemyMan;
+    public EnemyManager enemyMan2;
 
     private static float goalTime;
     public static float totalTime = 60; //the amount of time you want to start the countdown;
@@ -49,6 +50,7 @@ public class TimerControl : MonoBehaviour {
             else
             {
                 enemyMan.stopSpawn();
+                enemyMan2.stopSpawn();
                 GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
                 finishedtextElement.text = "Kill the remaining enemies to win\nEnemies left: " + enemies.Length;
             }

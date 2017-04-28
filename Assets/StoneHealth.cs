@@ -11,8 +11,10 @@ public class StoneHealth : MonoBehaviour {
     public float currentHealth;                                   // The current health the stone has.
     public Slider healthSlider;                                 // Reference to the UI's health bar.
     public Image damageImage;                                   // Reference to an image to flash on the screen on being hurt.
-    public float flashSpeed = 5f;                               // The speed the damageImage will fade at.
+    public float flashSpeed = 10f;                               // The speed the damageImage will fade at.
     public Color flashColour = new Color(0f, 0.78f, 1f, 0.1f);     // The colour the damageImage is set to, to flash.
+    public Text warningText;
+    public Color warnColor = new Color(1f, 1f, 1f, 1f);
 
 
     bool isDead;                                                // Whether the stone is destroyed.
@@ -38,6 +40,7 @@ public class StoneHealth : MonoBehaviour {
         if (damaged)
         {
             // ... set the colour of the damageImage to the flash colour.
+            warningText.color = warnColor;
             damageImage.color = flashColour;
             damageTimer = 0;
         }
@@ -45,6 +48,7 @@ public class StoneHealth : MonoBehaviour {
         else
         {
             // ... transition the colour back to clear.
+            warningText.color = Color.Lerp(warningText.color, Color.clear, 0.25f * flashSpeed * Time.deltaTime);
             damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
             damageTimer++;
         }

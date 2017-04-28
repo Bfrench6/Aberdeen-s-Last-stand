@@ -52,7 +52,7 @@ public class EnemyManager : MonoBehaviour
     void changeSpawnTime()
     {
         CancelInvoke("Spawn");
-        InvokeRepeating("Spawn", spawnTime, spawnTime);
+        InvokeRepeating("Spawn", curSpawnTime, curSpawnTime);
     }
 
     public void stopSpawn()
