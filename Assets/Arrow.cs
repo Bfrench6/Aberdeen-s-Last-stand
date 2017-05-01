@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour {
 
-    private float speed = 10f;
+    private float speed = 16f;
     public bool fired = false;
-    public int damagePerShot = 76;
+    public int damagePerShot = 200;
     public AudioClip clip;
     
     private int destructTimer;
