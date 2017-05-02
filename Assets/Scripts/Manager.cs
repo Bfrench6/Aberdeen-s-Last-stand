@@ -14,9 +14,22 @@ public class Manager : Singleton<Manager>
     public float musicVol = 1f;
     public float FXVol = 1f;
 
-    public bool isPaused = false;
+    public bool isPaused = true;
     public bool gameOver = false;
 
+    public enum powerType { damage, points, health, moveSpeed, stoneHealth }
+
+    public bool doubleDamage = false;
+
     public int Score;
+    public bool doublePoints = false;
+    
+    public int HealthPowerUp = 20;
+
+    public bool movePU = false;
+
+    public int StoneHealthPU = 50;
+
+    public string[] pUpNames = new string[] { "DamagePowerUp", "HealthPowerUp", "MoveSpeedPowerUp", "PointsPowerUp", "StoneHealthPowerUp" };
 
 }
