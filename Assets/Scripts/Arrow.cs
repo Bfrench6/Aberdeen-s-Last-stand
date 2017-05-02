@@ -11,25 +11,18 @@ public class Arrow : MonoBehaviour {
     
     private int destructTimer;
     private bool selfDestructing;
-
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
+    
 	void Update () {
-        
-        
+        //move arrow
         if (fired && !selfDestructing)
         {
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
-
-       
 	}
 
     void FixedUpdate()
     {
+        //correct arrow position while still attached to hand
         if(transform.parent) {
             transform.position = transform.parent.position;
             transform.Translate(new Vector3(0, 0.35f, 0.05f), transform.parent);
@@ -42,18 +35,21 @@ public class Arrow : MonoBehaviour {
     {
         if (!other.isTrigger)
         {
+            //if enemy, deal damage
             if (other.tag == "Enemy" && fired)
             {
                 EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
                 if (enemyHealth != null)
                 {
+                    //if powered up, deal double damage
                     enemyHealth.TakeDamage(Manager.Instance.doubleDamage ? damagePerShot * 2 : damagePerShot, transform.position + transform.forward/2);
                 }
                 selfDestruct(0);
             }
+            //if building, stop and play collision sound
             else if (other.tag != "Player" && fired)
             {
-                AudioSource.PlayClipAtPoint(clip, transform.position, Manager.Instance.FXVol);
+                AudioSource.PlayClipAtPoint(clip, transform.position, (Manager.Instance.FXVol * Manager.Instance.masterVol));
                 selfDestruct(1f);
             }
         }
@@ -81,6 +77,7 @@ public class Arrow : MonoBehaviour {
 
     public void Fire()
     {
+        //released arrow from hand
         if (transform != null)
         {
             transform.SetParent(null);

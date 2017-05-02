@@ -5,7 +5,7 @@ using System.Collections;
 public class EnemyAttack : MonoBehaviour
 {
     public float timeBetweenAttacks = 0.5f;     // The time in seconds between each attack.
-    public float attackDamage = 10;               // The amount of health taken away per attack.
+    public float attackDamage = 10;             // The amount of health taken away per attack.
 
 
     Animator anim;                              // Reference to the animator component.
@@ -14,7 +14,7 @@ public class EnemyAttack : MonoBehaviour
     PlayerHealth playerHealth;                  // Reference to the player's health.
     StoneHealth stoneHealth;                    // Reference to the stones health
     EnemyHealth enemyHealth;                    // Reference to this enemy's health.
-    public bool playerInRange;                         // Whether player is within the trigger collider and can be attacked.
+    public bool playerInRange;                  // Whether player is within the trigger collider and can be attacked.
     bool stoneInRange;                          // Whether stone is within the trigger collider and can be attacked.
     float timer;                                // Timer for counting up to the next attack.
 
@@ -114,7 +114,7 @@ public class EnemyAttack : MonoBehaviour
             // If the stone has health to lose...
             if (stoneHealth.currentHealth > 0)
             {
-                // ... damage the player.
+                // ... damage the stone.
                 stoneHealth.TakeDamage(attackDamage);
             }
         }

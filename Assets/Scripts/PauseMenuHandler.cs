@@ -12,15 +12,12 @@ public class PauseMenuHandler : MonoBehaviour {
     public Button difficultyButton;
     public float pauseTime;
     
-
-	// Use this for initialization
 	void Start () {
         masterVolume.onValueChanged.AddListener(delegate { ChangeMasterVolume(); });
         musicVolume.onValueChanged.AddListener(delegate { ChangeMusicVolume(); });
         fxVolume.onValueChanged.AddListener(delegate { ChangeFXVolume(); });
 
         difficultyButton.onClick.AddListener(ChangeDifficulty);
-
     }
 
     void Update()
@@ -65,8 +62,6 @@ public class PauseMenuHandler : MonoBehaviour {
                 Manager.Instance.difficultyMult = 1;
                 break;
         }
-            
-
     }
 
     public void quitToMainMenu()
@@ -74,7 +69,4 @@ public class PauseMenuHandler : MonoBehaviour {
         Manager.Instance.gameOver = false;
         SceneManager.LoadScene(0);
     }
-
-
-
 }

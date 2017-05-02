@@ -26,8 +26,7 @@ public class EnemyHealth : MonoBehaviour
         hitParticles = GetComponentInChildren<ParticleSystem>();
         capsuleCollider = GetComponent<CapsuleCollider>();
 
-        // Setting the current health when the enemy first spawns.
-        
+        // Setting the current health when the enemy first spawns based on difficulty
         currentHealth = startingHealth * Manager.Instance.difficultyMult;
         scoreValue *= Manager.Instance.difficultyMult;
     }
@@ -51,7 +50,7 @@ public class EnemyHealth : MonoBehaviour
             return;
 
         // Play the hurt sound effect.
-        AudioSource.PlayClipAtPoint(clip, transform.position, Manager.Instance.FXVol);
+        AudioSource.PlayClipAtPoint(clip, transform.position, (Manager.Instance.FXVol * Manager.Instance.masterVol));
 
         // Reduce the current health by the amount of damage sustained.
         currentHealth -= amount;
@@ -90,10 +89,7 @@ public class EnemyHealth : MonoBehaviour
             string path = "Powerups/" + Manager.Instance.pUpNames[Mathf.FloorToInt(pUp)];
             Instantiate(Resources.Load(path), transform.position + (Vector3.up), transform.rotation);
         }
-
-        // Change the audio clip of the audio source to the death clip and play it (this will stop the hurt clip playing).
-        //enemyAudio.clip = deathClip;
-        //enemyAudio.Play();
+        
     }
 
 
@@ -105,13 +101,13 @@ public class EnemyHealth : MonoBehaviour
         // Find the rigidbody component and make it kinematic (since we use Translate to sink the enemy).
         GetComponent<Rigidbody>().isKinematic = true;
 
-        // The enemy should no sink.
+        // The enemy should now sink.
         isSinking = true;
 
         // Increase the score by the enemy's score value.
         Manager.Instance.Score += Manager.Instance.doublePoints ? (scoreValue * 2) : scoreValue;
 
-        // After 2 seconds destory the enemy.
+        // After 2 seconds destroy the enemy.
         Destroy(gameObject, 2f);
     }
 

@@ -9,8 +9,6 @@ public class PowerUpManager : Singleton<PowerUpManager>
 	public CustomizablePowerUp prevPowerUp;
     private GameObject player;
     private GameObject stone;
-	private ushort powerUpLogLimit = 1;
-    
 	
 	void Awake() {
         
@@ -20,6 +18,7 @@ public class PowerUpManager : Singleton<PowerUpManager>
 
     public void Add(CustomizablePowerUp powerUp)
     {
+        //power up player based on type
         switch (powerUp.powerUpNum)
         {
             case ((int)Manager.powerType.damage):
@@ -37,7 +36,6 @@ public class PowerUpManager : Singleton<PowerUpManager>
             case ((int)Manager.powerType.stoneHealth):
                 stone.GetComponent<StoneHealth>().GainHealth(Manager.Instance.StoneHealthPU);
                 break;
-
         }
         if (curPowerUp)
         {
@@ -50,4 +48,3 @@ public class PowerUpManager : Singleton<PowerUpManager>
         curPowerUp = powerUp;
     }
 }
-

@@ -19,15 +19,28 @@ public class MainMenuHandler : MonoBehaviour {
 	void Start () {
         StartButton.onClick.AddListener(goToInfoScreen);
         CreditsButton.onClick.AddListener(goToCredits);
-
-		
 	}
 
     void Update() {
         if (Input.GetKeyDown("up") || Input.GetKeyDown("down")) {
-            //startSelected = !startSelected;
-            startStroke.SetActive(!startStroke.activeSelf);
-            creditsStroke.SetActive(!creditsStroke.activeSelf);
+            //if neither active, pick one
+            if (!startStroke.activeSelf && !creditsStroke.activeSelf)
+            {
+                if (Input.GetKeyDown("up"))
+                {
+                    startStroke.SetActive(true);
+                }
+                else
+                {
+                    creditsStroke.SetActive(true);
+                }
+            }
+            //if one active, swap them
+            else
+            {
+                startStroke.SetActive(!startStroke.activeSelf);
+                creditsStroke.SetActive(!creditsStroke.activeSelf);
+            }
         } 
         if (Input.GetKeyDown("return")) {
             if (startStroke.activeSelf) {

@@ -6,18 +6,9 @@ public class Rock : MonoBehaviour {
 	[SerializeField] Vector3 topPosition;
 	[SerializeField] Vector3 bottomPosition;
 	[SerializeField] float speed;
-
-	// Use this for initialization
+    
 	void Start () {
 		StartCoroutine (Move (bottomPosition));
-	}
-
-	protected void Update() {
-
-//		if (GameManager.instance.PlayerActive) {
-//			base.Update ();
-//		}
-
 	}
 
 	IEnumerator Move(Vector3 target) {

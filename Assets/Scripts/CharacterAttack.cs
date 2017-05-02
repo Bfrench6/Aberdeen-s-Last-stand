@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class CharacterAttack : MonoBehaviour
 {
+    public Transform RHTrans;                           //reference to the right hand of the player
+    public Arrow arrowPrefab;                           //reference to arrow prefab
+    public Rigidbody playerRigidbody;                   //reference to players rigidbody
     
-
-    public Transform RHTrans;
-    public Arrow arrowPrefab;
-    public Rigidbody playerRigidbody;
-    
-    public AudioClip[] KnockClips;
-    public AudioClip[] DrawClips;
-    public AudioClip[] FireClips;
-
-    private AudioSource audioSource;
+    public AudioClip[] KnockClips;                      //reference to arrow knock sound clips
+    public AudioClip[] FireClips;                       //reference to arrow fired clips
 
     private Animator anim;                              // a reference to the animator on the character
     private AnimatorStateInfo currentBaseState;			// a reference to the current state of the animator, used for base layer
@@ -25,9 +20,9 @@ public class CharacterAttack : MonoBehaviour
     static int shootState = Animator.StringToHash("Base Layer.Shoot");
     static int idleState = Animator.StringToHash("Base Layer.Idle");
 
-    private int cooldown;
-    private int shotTime = 45;
-    private bool isAiming;
+    private int cooldown;                               //arrow shot cooldown time
+    private int shotTime = 45;                          //time between shots
+    private bool isAiming;                              
     private bool isRunning;
     private Arrow arrow;
     private bool arrowKnocked;
@@ -38,7 +33,6 @@ public class CharacterAttack : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
-        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -57,21 +51,19 @@ public class CharacterAttack : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 anim.SetTrigger("Aim");
-                //PlayRandomSound(KnockClips);
 
             }
             //if the mouse button has been released, fire the arrow
             if (!Input.GetMouseButton(0) && (currentBaseState.fullPathHash == aimState || currentBaseState.fullPathHash == drawState) && cooldown >= shotTime)
             {
-
                 anim.SetTrigger("Fire");
-
                 arrowFired = true;
+                //face arrow in proper direction
                 if (arrow != null)
                 {
                     arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
                 }
-                cooldown = 0;
+                cooldown = 0; //0 time since last shot
             }
         }
     }
@@ -80,12 +72,14 @@ public class CharacterAttack : MonoBehaviour
     {
         if (!Manager.Instance.isPaused || !Manager.Instance.gameOver)
         {
+            //once draw animation has reached the appropriate point, create the arrow
             if (anim.GetFloat("drawArrow") > .5 && !arrowKnocked)
             {
                 arrow = CreateArrow();
 
                 arrowKnocked = true;
             }
+            //fix arrows rotation prior to release
             if (anim.GetFloat("drawArrow") < 0.1 && arrowKnocked)
             {
                 arrow.transform.rotation = Quaternion.LookRotation(transform.forward);
@@ -93,7 +87,7 @@ public class CharacterAttack : MonoBehaviour
         }
 
         currentBaseState = anim.GetCurrentAnimatorStateInfo(0); // set our currentState variable to the current state of the Base Layer (0) of animation
-
+        //once shoot animation has reached appropriate point, fire the arrow
         if (anim.GetFloat("fireArrow") > 0.5 && arrowFired)
         {
             if (arrow != null)
@@ -101,25 +95,21 @@ public class CharacterAttack : MonoBehaviour
                 arrow.Fire();
                 PlayRandomSound(FireClips, transform.position);
             }
-
             arrowKnocked = false;
         }
     }
 
     Arrow CreateArrow()
     {
-        //Arrow arrow = Instantiate(arrowPrefab, RHTrans.position, Quaternion.LookRotation(transform.forward));
         Arrow arrow = Instantiate(arrowPrefab, RHTrans, false);
-
         return arrow;
     }
 
     void PlayRandomSound(AudioClip[] clips, Vector3 pos)
     {
-        
         if (clips != null && clips.Length != 0)
         {
-            AudioSource.PlayClipAtPoint(clips[Random.Range(0, clips.Length)], pos);
+            AudioSource.PlayClipAtPoint(clips[Random.Range(0, clips.Length)], pos, (Manager.Instance.FXVol * Manager.Instance.masterVol));
         }
     }
 
@@ -127,7 +117,7 @@ public class CharacterAttack : MonoBehaviour
     {
         if (KnockClips != null && KnockClips.Length != 0)
         {
-            audioSource.PlayOneShot(KnockClips[Random.Range(0, KnockClips.Length)]);
+            AudioSource.PlayClipAtPoint(KnockClips[Random.Range(0, KnockClips.Length)], transform.position, (Manager.Instance.FXVol * Manager.Instance.masterVol));
         }
     }
 

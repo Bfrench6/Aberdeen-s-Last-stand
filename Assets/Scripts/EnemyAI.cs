@@ -34,10 +34,11 @@ public class EnemyAI : MonoBehaviour {
 	void Update () {
         if(!Manager.Instance.isPaused && !enemyHealth.isDead && !Manager.Instance.gameOver)
         {
+            //if player is in range or this enemy has been attacked, track player
 			if (enemyAttack.playerInRange || enemyHealth.currentHealth < (enemyHealth.startingHealth* Manager.Instance.difficultyMult))
 				nav.destination = player.position;
 			else
-            	nav.destination = target.position;
+            	nav.destination = target.position; // track stone
 
             nav.Resume();
             updateAnimatorCoordinates();
@@ -60,7 +61,6 @@ public class EnemyAI : MonoBehaviour {
     void updateAnimatorCoordinates() {
         //Calculate x and z direction of animation:
         Vector3 deltaWorldPos = nav.nextPosition - transform.position;
-        //Debug.Log(deltaWorldPos);
         //map world coordinates to space
         float dx = Vector3.Dot(transform.right, deltaWorldPos);
         float dy = Vector3.Dot(transform.forward, deltaWorldPos);
@@ -72,8 +72,7 @@ public class EnemyAI : MonoBehaviour {
         if (Time.deltaTime > 1e-5f) {
             velocity = smooth/Time.deltaTime;
         }
-
-        //Debug.Log(velocity.x);
+        
         anim.SetFloat ("velx", velocity.x);
         anim.SetFloat ("velz", velocity.y);
     }

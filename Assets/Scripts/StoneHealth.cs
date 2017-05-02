@@ -34,7 +34,6 @@ public class StoneHealth : MonoBehaviour {
 
     }
 	
-	
 	void Update () {
         // If the stone has just been damaged...
         if (damaged)

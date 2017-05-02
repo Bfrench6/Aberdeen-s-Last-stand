@@ -23,13 +23,8 @@ public class MenuNavigation : MonoBehaviour {
 
     public GameObject curScreen;
 
-    GameObject[] screens; //Make sure to update this in start if you add a canvas
+    GameObject[] screens; //array of game screens
     
-
-
-
-
-	// Use this for initialization
 	void Start () {
         screens = new GameObject[] { MainMenu, InfoScreen, SettingsMenu, Credits, HUD, ScoreScreen };
 
@@ -38,16 +33,14 @@ public class MenuNavigation : MonoBehaviour {
         MiniMapCam.SetActive(false);
         PauseCam.SetActive(true);
         
-		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-
+        
         if (curScreen == HUD)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) /*|| Input.GetButtonDown("Start")*/)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 goToPauseMenu();
             }
@@ -55,36 +48,36 @@ public class MenuNavigation : MonoBehaviour {
         }
         else if (curScreen == MainMenu)
         {
-
-
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
         }
         else if (curScreen == SettingsMenu)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) /*|| Input.GetButtonDown("Start")*/)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 TimerControl.ResumeTimer(SettingsMenu.GetComponent<PauseMenuHandler>().pauseTime);
                 goToGame();
             }
-            
-
-            
         }
         else if (curScreen == Credits)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) /*|| Input.GetButtonDown("Start")*/)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
+                //if game is over, reload level
                 if(Manager.Instance.gameOver)
                 {
                     Manager.Instance.gameOver = false;
                     SceneManager.LoadScene(0);
                 }
+                //else go to mainmenu
                 goToMainMenu();
             }
-
         }
         else if (curScreen == ScoreScreen)
         {
-            if (Input.GetKeyDown(KeyCode.Escape) /*|| Input.GetButtonDown("Start")*/)
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 goToCredits();
             }
@@ -98,11 +91,12 @@ public class MenuNavigation : MonoBehaviour {
         PauseCam.SetActive(true);
 
         Manager.Instance.Score = 0;
-
+        //set all sreens inactive
         foreach(GameObject screen in screens)
         {
             screen.SetActive(false);
         }
+        //make main menu screen active
         MainMenu.SetActive(true);
         curScreen = MainMenu;
 
@@ -120,12 +114,10 @@ public class MenuNavigation : MonoBehaviour {
         {
             screen.SetActive(false);
         }
-
         InfoScreen.SetActive(true);
         curScreen = InfoScreen;
 
         Manager.Instance.isPaused = true;
-
     }
 
     public void goToPauseMenu()
@@ -211,7 +203,5 @@ public class MenuNavigation : MonoBehaviour {
             Text textElement = ScoreScreen.GetComponentInChildren<Text>();
             textElement.text = "Sorry, you have failed in your defense of the city\n\nYour score was: " + Manager.Instance.Score.ToString();
         }
-
     }
-
 }

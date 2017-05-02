@@ -19,9 +19,6 @@ public class TimerControl : MonoBehaviour {
 
     private string timerText;
     private float guiTime;
-    
-    
-
 
     public static void StartTimer(int length)
     {
@@ -43,14 +40,14 @@ public class TimerControl : MonoBehaviour {
         }
         else
         {
-
             if(enemyMan.allDead())
-            {
+            {   //go to score creen once player wins
                 Manager.Instance.gameOver = true;
                 nav.goToScoreScreen(true);
             }
             else
             {
+                //stop enemies from spawning and tell player how many they have left once timer ends
                 enemyMan.stopSpawn();
                 enemyMan2.stopSpawn();
                 GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -58,6 +55,7 @@ public class TimerControl : MonoBehaviour {
             }
             guiTime = 0;
         }
+        //set power up text
         PowerUp[] playerPUs = player.GetComponents<PowerUp>();
         powerUpText.text = "Current power ups: ";
         foreach (PowerUp pu in playerPUs)

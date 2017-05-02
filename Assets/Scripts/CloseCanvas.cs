@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CloseCanvas : MonoBehaviour {
-
+    //game info screen
 
     public MenuNavigation nav;
     public GameObject canvas;
@@ -15,37 +15,28 @@ public class CloseCanvas : MonoBehaviour {
     // Use this for initialization
     void Start () {
         
-        
-        button.onClick.AddListener(TaskOnClick);
+        button.onClick.AddListener(TaskOnClick);                //start gamme button
         if (lengthButton != null)
         {
-            lengthButton.onClick.AddListener(ChangeLength);
+            lengthButton.onClick.AddListener(ChangeLength);     //game length button
         }
         if (difficultyButton != null)
         {
-            difficultyButton.onClick.AddListener(ChangeDiff);
+            difficultyButton.onClick.AddListener(ChangeDiff);   //difficulty button
         }
-        
-
-    }
-    
-    // Update is called once per frame
-    void Update () {
-        
-        
-
     }
 
     void TaskOnClick(){
         
         if (nav != null)
         {
+            //start timer and game
             TimerControl.StartTimer(Manager.Instance.length);
             nav.goToGame();
         }
 
     }
-
+    //change game length variables
     void ChangeLength()
     {
         Text lenTextElement = lengthButton.GetComponentInChildren<Text>();
@@ -66,7 +57,7 @@ public class CloseCanvas : MonoBehaviour {
                 break;
         }
     }
-
+    //change difficulty settings
     void ChangeDiff()
     {
         Text diffTextElement = difficultyButton.GetComponentInChildren<Text>();
@@ -90,5 +81,4 @@ public class CloseCanvas : MonoBehaviour {
                 break;
         }
     }
-
 }

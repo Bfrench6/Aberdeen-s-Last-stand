@@ -11,6 +11,12 @@ Allen Teh
 Level Design
 Chuan Yui teh
 
+Character Controller
+Ben French
+
+Enemy Controllers
+Pranav Bhardwaj
+
 Music
 bensound.com
 soundimage.org

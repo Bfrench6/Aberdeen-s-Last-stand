@@ -21,7 +21,7 @@ public class CreditsScript : MonoBehaviour
     private List<string> credits = new List<string>();
     public float speed = 20.2f;
     private bool restart = false;
-
+    
     void OnEnable()
     {
         if (restart)
@@ -34,6 +34,7 @@ public class CreditsScript : MonoBehaviour
 
     void OnDisable()
     {
+        //destroy text so there arent multiple credit scenes rolling
         Text[] destroy = GetComponentsInChildren<Text>();
         foreach (Text t in destroy)
         {
@@ -43,14 +44,11 @@ public class CreditsScript : MonoBehaviour
             }   
         }
         restart = true;
-
     }
-
-    // Use this for initialization
+    
     void Start()
     {
-        creditsText.transform.position = top.transform.position;
-        creditsText.transform.Translate(Vector3.down * 45);
+        creditsText.rectTransform.anchoredPosition3D = new Vector3(0,0,0);
 
         credits.Clear();
         // Set the path for the credits.txt file
@@ -69,23 +67,25 @@ public class CreditsScript : MonoBehaviour
 
     }
     
-    // Update is called once per frame
     void Update()
     {
         if (Credits.Count != 0)
         {
+            //move word "credits" up once credits cross middle of screen
+            Debug.Log(Credits[0].transform.localPosition.y);
             if (Credits[0].transform.localPosition.y > 0)
             {
-                if (creditsText.transform.localPosition.y < top.transform.localPosition.y)
+                if (creditsText.rectTransform.anchoredPosition3D.y < creditsText.rectTransform.rect.height)
                 {
                     creditsText.transform.Translate(Vector3.up * Time.deltaTime * speed);
                 }
 
             }
-
+            //move credits up
             for (int i = 0;i < Credits.Count; i++)
             {
                 Credits[i].transform.Translate(Vector3.up * Time.deltaTime * speed);
+                //once credits reach the top, destroy them
                 if (Credits[i].transform.localPosition.y > top.transform.localPosition.y)
                 {
                     Destroy(Credits[i].gameObject);
@@ -97,6 +97,7 @@ public class CreditsScript : MonoBehaviour
         }
         else if (isActiveAndEnabled)
         {
+            //restart game once credits finish rolling
             if (Manager.Instance.gameOver)
             {
                 Manager.Instance.gameOver = false;

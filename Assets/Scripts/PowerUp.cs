@@ -10,25 +10,18 @@ public class PowerUp : MonoBehaviour {
     public int PUType = -1;
     public Color color;
     public string Name;
-
-    
-    
-
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
         if(active)
         {
-            activeTime += Time.deltaTime;
+            activeTime += Time.deltaTime;           //update active time
         }
         if(activeTime >= duration && active)
         {
             active = false;
             activeTime = 0;
+            //disable power up effect based on type
             switch (PUType)
             {
                 case ((int)Manager.powerType.damage):

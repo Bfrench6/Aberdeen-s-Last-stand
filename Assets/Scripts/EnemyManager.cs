@@ -23,12 +23,13 @@ public class EnemyManager : MonoBehaviour
     {
         if (!Manager.Instance.isPaused && !Manager.Instance.gameOver)
         {
-            
+            //increase spawn time if less than 25% of timer left
             if (timer.getCurTime() < timer.getTotalTime() / 4 && curSpawnTime != spawnTime * 0.5f)
             {
                 curSpawnTime = spawnTime * 0.5f; 
                 changeSpawnTime();
             }
+            //increase spawn time if less than 50% of timer left
             else if (timer.getCurTime() < timer.getTotalTime() / 2 && curSpawnTime != spawnTime * (2.0f / 3))
             {
                 curSpawnTime = spawnTime * (2.0f / 3);

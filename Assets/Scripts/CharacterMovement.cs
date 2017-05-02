@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour {
     
-    public Rigidbody playerRigidbody;
+    public Rigidbody playerRigidbody;                   // reference to player rigidbody
 
-    private Animator anim;                              // a reference to the animator on the character
-    private AnimatorStateInfo currentBaseState;			// a reference to the current state of the animator, used for base layer
+    private Animator anim;                              // reference to the animator on the character
+    private AnimatorStateInfo currentBaseState;			// reference to the current state of the animator, used for base layer
 
     static int walkState = Animator.StringToHash("Base Layer.Walking");
     static int drawState = Animator.StringToHash("Base Layer.Draw Arrow");
@@ -27,7 +27,6 @@ public class CharacterMovement : MonoBehaviour {
         anim = GetComponent<Animator>();
         floorMask = LayerMask.GetMask("Floor");
         playerRigidbody = GetComponent<Rigidbody>();
-
     }
 
     void FixedUpdate()
@@ -39,7 +38,7 @@ public class CharacterMovement : MonoBehaviour {
             float v = Input.GetAxis("Vertical");                // setup v variables as our vertical input axis
 
             Vector2 moveVec = new Vector2(h, v);
-
+            //the vector the camera is facing
             Vector2 lookVec = new Vector2(transform.forward.x, transform.forward.z);
             lookVec = Quaternion.Euler(0, 0, 220) * lookVec;
             lookVec.Normalize();
@@ -52,7 +51,7 @@ public class CharacterMovement : MonoBehaviour {
             {
                 rotAngle = -rotAngle;
             }
-
+            //adjust movement vector based on the rotation the camera is facing
             moveVec = Quaternion.Euler(0, 0, rotAngle) * moveVec;
             moveVec.Normalize();
 
@@ -95,13 +94,11 @@ public class CharacterMovement : MonoBehaviour {
             float runSpeed = Input.GetAxis("Vertical");
             float sideSpeed = Input.GetAxis("Horizontal");
 
-
-
             Vector2 moveVec = new Vector2(runSpeed, sideSpeed);
             moveVec.Normalize();
 
+            //adjust movement vector based on camera
             moveVec = Quaternion.Euler(0, 0, 220) * moveVec;
-            
 
             if (isRunning)
             {
@@ -114,6 +111,8 @@ public class CharacterMovement : MonoBehaviour {
 
             newPosition.z += moveVec.x * Time.deltaTime;
             newPosition.x += moveVec.y * Time.deltaTime;
+
+            //bound character movement within town
             if (newPosition.x < -55)
             {
                 newPosition.x = -55;
@@ -131,15 +130,7 @@ public class CharacterMovement : MonoBehaviour {
             transform.position = newPosition;
         }
     }
-
-    //Arrow CreateArrow()
-    //{
-    //    //Arrow arrow = Instantiate(arrowPrefab, RHTrans.position, Quaternion.LookRotation(transform.forward));
-    //    Arrow arrow = Instantiate(arrowPrefab, RHTrans, false);
-
-    //    return arrow;
-    //}
-
+    
     void Turning()
     {
         // Create a ray from the mouse cursor on screen in the direction of the camera.

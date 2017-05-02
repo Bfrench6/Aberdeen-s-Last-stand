@@ -95,14 +95,14 @@ public class CustomizablePowerUp : MonoBehaviour
         if (effect != null)
         {
             _effect = Instantiate(effect, transform.position, transform.rotation);
-            /*if(item != null)
+            if(item != null)
 			{
 				this._effect.transform.parent = _item.transform;
 			}
 			else 
-			{*/
+			{
             _effect.transform.parent = transform;
-            //}
+            }
             _effect.name = "Effect";
             if (effectRotSpeed > 0.0f)
             {
@@ -114,10 +114,10 @@ public class CustomizablePowerUp : MonoBehaviour
         }
 
         _light = new GameObject("Light");
-        //this._light = (GameObject)GameObject.Instantiate(this._light);
+        this._light = (GameObject)GameObject.Instantiate(this._light);
         _light.transform.parent = transform;
         _light.transform.position = transform.position;
-        //this._internHull.GetComponent<Renderer>().sharedMaterial = this.internHullMaterial;
+        this._internHull.GetComponent<Renderer>().sharedMaterial = this.internHullMaterial;
         Light tmp = _light.AddComponent<Light>();
         tmp.color = lightColor;
         tmp.intensity = lightIntensity;
@@ -134,12 +134,14 @@ public class CustomizablePowerUp : MonoBehaviour
         {
             timeAlive += Time.deltaTime;
         }
+        //destroy once powerup has been active past its time
         if (timeAlive > lifetime)
         {
             Destroy(gameObject);
         }
         else if (timeAlive > (3 * lifetime / 4) && !almostGone)
         {
+            //speed up flashing
             CancelInvoke("Flashing");
             InvokeRepeating("Flashing", 0, 0.15f);
             almostGone = true;
@@ -147,6 +149,7 @@ public class CustomizablePowerUp : MonoBehaviour
         }
         else if (timeAlive > lifetime / 2 && !isFlashing)
         {
+            //start flashing once almost gone
             InvokeRepeating("Flashing", 0, 0.4f);
             isFlashing = true;
         }

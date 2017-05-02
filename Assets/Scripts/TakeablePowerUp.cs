@@ -16,16 +16,19 @@ public class TakeablePowerUp : MonoBehaviour {
 		if(collider.tag == "Player") {
 			PowerUpManager.Instance.Add(customPowerUp);
             bool newPU = true;
+            //add power up to player
             collider.gameObject.AddComponent<PowerUp>();
             PowerUp[] playerPUs = collider.gameObject.GetComponents<PowerUp>();
-            
+            //set power up setting based on type
             foreach (PowerUp pu in playerPUs)
             {
+                //reset duration if player already has this power up
                 if (pu.GetPUType() == customPowerUp.powerUpNum)
                 {
                     pu.resetDuration();
                     newPU = false;
                 }
+                //else set values on new power up
                 if (!pu.isActive() && newPU)
                 {
                     pu.SetDuration(customPowerUp.duration);
@@ -36,11 +39,10 @@ public class TakeablePowerUp : MonoBehaviour {
                 pu.Activate();
             }
             
-            
 			if(customPowerUp.pickUpSound != null){
 				AudioSource.PlayClipAtPoint(customPowerUp.pickUpSound, transform.position);
 			}
-
+            //destroy visual power up
             Destroy(transform.parent.gameObject);
 
 		}

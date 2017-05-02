@@ -25,7 +25,6 @@ public class PlayerHealth : MonoBehaviour
 
     public MenuNavigation nav;
 
-
     void Awake()
     {
         // Setting up the references.
@@ -35,7 +34,7 @@ public class PlayerHealth : MonoBehaviour
 
         // Set the initial health of the player.
         currentHealth = startingHealth;
-
+        //lower regen based on difficulty
         regenRate /= Manager.Instance.difficultyMult;
     }
 
@@ -56,7 +55,7 @@ public class PlayerHealth : MonoBehaviour
             damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
             damageTimer++;
         }
-
+        //if the player hasnt been damaged in a sufficient amount of time, regenerate
         if (damageTimer > damageTime && !isDead)
         {
             Regen();
