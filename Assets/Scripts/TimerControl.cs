@@ -14,6 +14,7 @@ public class TimerControl : MonoBehaviour {
     public EnemyManager enemyMan2;
 
     private static float goalTime;
+    public static float gameTime;
     public static float totalTime = 90; //the amount of time you want to start the countdown;
     private static float pauseTime = 0;
 
@@ -22,8 +23,8 @@ public class TimerControl : MonoBehaviour {
 
     public static void StartTimer(int length)
     {
-        totalTime *= length;
-        goalTime = Time.time + totalTime;
+        gameTime = totalTime * length;
+        goalTime = Time.time + gameTime;
 
     }
 
