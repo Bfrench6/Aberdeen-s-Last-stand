@@ -52,9 +52,10 @@ public class CreditsScript : MonoBehaviour
 
         credits.Clear();
         // Set the path for the credits.txt file
-        path = "Assets/Resources/Credits.txt";
         // Create reader & open file
-        tr = new StreamReader(path);
+        TextAsset credfile = (TextAsset) Resources.Load("Credits");
+        Debug.Log(credfile);
+        tr = new StringReader(credfile.text);
         string temp;
         while ((temp = tr.ReadLine()) != null)
         {

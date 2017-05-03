@@ -19,6 +19,8 @@ public class MainMenuHandler : MonoBehaviour {
 	void Start () {
         StartButton.onClick.AddListener(goToInfoScreen);
         CreditsButton.onClick.AddListener(goToCredits);
+        startStroke.SetActive(false);
+        creditsStroke.SetActive(false);
 	}
 
     void Update() {
