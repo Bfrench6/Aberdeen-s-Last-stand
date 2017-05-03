@@ -67,23 +67,25 @@ public class EnemyAttack : MonoBehaviour
         // Add the time since Update was last called to the timer.
         timer += Time.deltaTime;
 
-    
-     // If the timer exceeds the time between attacks, the player is in range and this enemy is alive...
-        if(timer >= timeBetweenAttacks && enemyHealth.currentHealth > 0)
+        if (!Manager.Instance.isPaused && !Manager.Instance.gameOver)
         {
-            if(playerInRange)
+            // If the timer exceeds the time between attacks, the player is in range and this enemy is alive...
+            if (timer >= timeBetweenAttacks && enemyHealth.currentHealth > 0)
             {
-                Attack(player);
+                if (playerInRange)
+                {
+                    Attack(player);
+                }
+                else if (stoneInRange)
+                {
+                    Attack(stone);
+                }
+                else
+                {
+                    anim.SetBool("Attack", false);
+                }
+                // ... attack.
             }
-            else if (stoneInRange)
-            {
-                Attack(stone);
-            }
-            else 
-            {
-                anim.SetBool("Attack", false);
-            }
-            // ... attack.
         }
 
         // If the player has zero or less health...
