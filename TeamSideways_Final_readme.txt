@@ -5,8 +5,8 @@ Chuan Yui Teh:
 email - evanyui@gatech.edu
 prism account name - cteh6
 Pranav Bhardwaj:
-email -
-prism account name - 
+email - pbhardwaj9@gatech.edu
+prism account name - pbhardwaj9
 
 How to play:
 1. Open game
