@@ -72,7 +72,6 @@ public class CreditsScript : MonoBehaviour
         if (Credits.Count != 0)
         {
             //move word "credits" up once credits cross middle of screen
-            Debug.Log(Credits[0].transform.localPosition.y);
             if (Credits[0].transform.localPosition.y > 0)
             {
                 if (creditsText.rectTransform.anchoredPosition3D.y < creditsText.rectTransform.rect.height)

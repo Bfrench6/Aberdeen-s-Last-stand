@@ -48,7 +48,7 @@ public class MenuNavigation : MonoBehaviour {
         }
         else if (curScreen == MainMenu)
         {
-            if (Input.GetKey(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Application.Quit();
             }
