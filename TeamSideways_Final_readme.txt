@@ -61,7 +61,7 @@ Explosion models - Unity Asset Store
 
 Who did what?
 Ben French - character controller, menu control/scripts, power ups/scripts, player/enemy/stone attack/health/movement scripts, music and sound effects, minimap
-Pranav Bhardwaj - enemy controllers, enemy AI
+Pranav Bhardwaj - enemy characters and anims, enemy controllers, enemy AI, User input for main menu nav
 Chuan Yui - UI design, level design, level lightings and animation, Camera script, Rock script, Explosion in stone health script
 
 What Scene to open in Unity:
