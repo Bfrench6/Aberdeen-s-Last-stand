@@ -18,7 +18,8 @@ public class StoneHealth : MonoBehaviour {
     public Color flashColour = new Color(0f, 0.78f, 1f, 0.1f);     // The colour the damageImage is set to, to flash.
     public Text warningText;
     public Color warnColor = new Color(1f, 1f, 1f, 1f);
-
+	public GameObject explosion;
+	public GameObject stone;
 
     bool isDead;                                                // Whether the stone is destroyed.
     bool damaged;                                               // True when the stone gets damaged.
@@ -106,6 +107,8 @@ public class StoneHealth : MonoBehaviour {
     {
         // Set the death flag so this function won't be called again.
         isDead = true;
+		explosion.SetActive (true);
+		stone.SetActive (false);
 
         Manager.Instance.gameOver = true;
         nav.goToScoreScreen(false);

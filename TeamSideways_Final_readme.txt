@@ -2,8 +2,8 @@ Benjamin French:
 email - bfrench6@ gatech.edu 
 prism account name - bfrench6
 Chuan Yui Teh:
-email -
-prism account name - 
+email - evanyui@gatech.edu
+prism account name - cteh6
 Pranav Bhardwaj:
 email -
 prism account name - 
@@ -57,11 +57,12 @@ Animations - mixamo
 Character models - mixamo
 Power Up models - PowerUp particles - MHLab
 Town Models - Fantasy Demon Caves - 3dfancy, Fantasy Environment Level Set - Bitgem
+Explosion models - Unity Asset Store
 
 Who did what?
 Ben French - character controller, menu control/scripts, power ups/scripts, player/enemy/stone attack/health/movement scripts, music and sound effects, minimap
 Pranav Bhardwaj - enemy controllers, enemy AI
-Chuan Yui - UI design, level design
+Chuan Yui - UI design, level design, level lightings and animation, Camera script, Rock script, Explosion in stone health script
 
 What Scene to open in Unity:
 -Level01.unity
