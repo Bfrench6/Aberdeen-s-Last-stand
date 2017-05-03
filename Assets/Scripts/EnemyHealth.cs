@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿//based off enemy health from M0
+//Ben French, Chuan Yui, Pranav Bhardwaj
+
+using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyHealth : MonoBehaviour

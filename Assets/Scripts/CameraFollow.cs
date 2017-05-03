@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿//Based off camera follow from M0
+//Ben French, Chuan Yui, Pranav Bhardwaj
+
+using UnityEngine;
 using System.Collections;
 
 public class CameraFollow : MonoBehaviour

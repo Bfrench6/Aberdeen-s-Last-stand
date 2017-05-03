@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿//based off player movement from M0
+//Ben French, Chuan Yui, Pranav Bhardwaj
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

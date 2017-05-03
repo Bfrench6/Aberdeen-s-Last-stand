@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿//modified from power up particles asset
+//Ben French, Chuan Yui, Pranav Bhardwaj
+
+using UnityEngine;
 using System.Collections;
 
 public class TakeablePowerUp : MonoBehaviour {

@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿//based off enemy attack from M0
+//Ben French, Chuan Yui, Pranav Bhardwaj
+
+using UnityEngine;
 using System.Collections;
 
 

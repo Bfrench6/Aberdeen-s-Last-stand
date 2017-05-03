@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//modified from http://answers.unity3d.com/questions/64419/making-credits-scroll-upwards-on-screen.html
+//Ben French, Chuan Yui, Pranav Bhardwaj
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;

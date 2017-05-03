@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿//modified from powerup particles asset
+//Ben French, Chuan Yui, Pranav Bhardwaj
+
+using UnityEngine;
 using System.Collections;
 
 public class CustomizablePowerUp : MonoBehaviour

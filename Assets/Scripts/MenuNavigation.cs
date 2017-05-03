@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿//Ben French, Chuan Yui, Pranav Bhardwaj
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -196,7 +198,7 @@ public class MenuNavigation : MonoBehaviour {
         if(winner)
         {
             Text textElement = ScoreScreen.GetComponentInChildren<Text>();
-            textElement.text = "Congratulations! You held of the hoards long enough for reinforcments to arrive!\nYour score was: " + Manager.Instance.Score.ToString();
+            textElement.text = "Congratulations! You held off the hoards long enough for reinforcments to arrive!\nYour score was: " + Manager.Instance.Score.ToString();
         }
         else
         {

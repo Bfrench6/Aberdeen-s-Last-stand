@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿//Ben French, Chuan Yui, Pranav Bhardwaj
+
+using UnityEngine;
 using System.Collections;
 
 public class Rock : MonoBehaviour {

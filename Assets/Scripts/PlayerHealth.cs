@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿//based off player health from m0
+//Ben French, Chuan Yui, Pranav Bhardwaj
+
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
